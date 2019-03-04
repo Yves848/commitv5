@@ -1,0 +1,20 @@
+{
+  "informations_generales": {
+    "pays": "BE",
+    "date_creation": "",
+    "module_en_cours": "0",
+    "page_en_cours": "0",
+    "date_conversion": ""
+  },
+  "modules": [{
+    "import": {
+      "nom": "Officinnall",
+      "date": "",
+      "version": "",
+      "mode": "0",
+      "resultats":[
+        
+      ]
+    }
+  }]
+}

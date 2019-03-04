@@ -15,6 +15,7 @@ import {classNames} from 'classnames'
 import NewProject from '../components/Modals/NewProject';
 const { dialog } = require('electron').remote;
 const { ipcMain } = require('electron').remote;
+const { saveProject } = require('../Utils/projects');
 
 const styles = theme => ({
   root: {
@@ -54,14 +55,14 @@ class MainView extends Component {
     });
 
     ipcMain.on('createProject', async (event, arg) => {
-      console.log('createProjet');
+      //console.log('createProjet');
       this.setState({
         isNewProjectOpen: true,
       });
     });
 
     ipcMain.on('snack', async (event, args) => {
-      console.log(args)
+      //console.log(args)
     });
   }
 
@@ -95,8 +96,9 @@ class MainView extends Component {
   };
 
   saveProject = projet => {
-    console.log('saveProject', projet);
+    //console.log('saveProject', projet);
     this.handleClose();
+    saveProject(projet);
     this.setState({
       snack:{
         open: true,

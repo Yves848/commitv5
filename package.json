@@ -54,6 +54,7 @@
     "is-jpg": "^2.0.0",
     "jquery": "^3.3.1",
     "jsmediatags": "^3.8.1",
+    "moment": "^2.24.0",
     "node-id3": "^0.1.5",
     "notistack": "^0.4.3",
     "prop-styles": "^2.0.0",

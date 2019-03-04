@@ -12,12 +12,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/core/styles';
 const { dialog } = require('electron').remote;
-
-
-const versions = require('../../../Modules/modules.json');
-const aPays = Object.entries(versions).map(entry => {
-  return entry[0];
-});
+const { aPays, getImportModule } = require('../../Utils/projects')
 
 const styles = theme => ({
   container: {
@@ -54,17 +49,12 @@ class NewProject extends Component {
       projet: {
         pays: 'be',
         aImport: 0,
-        name: ''
-      }
+        name: '',
+      },
     };
   }
 
-  getImportModule = pays => {
-    const aPays = Object.entries(versions).filter(version => {
-      return version[0] === pays;
-    });
-    return aPays[0][1];
-  };
+  
 
   handlePaysChange = event => {
     const pays = event.target.value;
@@ -106,10 +96,10 @@ class NewProject extends Component {
       ],
     });
     if (file) {
-      const {projet} = this.state;
+      const { projet } = this.state;
       projet.name = file[0];
       this.setState({
-        projet
+        projet,
       });
     }
   };
@@ -118,8 +108,8 @@ class NewProject extends Component {
     const { isOpen } = this.props;
     const { classes } = this.props;
     const { projet } = this.state;
-    
-    const aModules = this.getImportModule(projet.pays).map((module, index) => {
+
+    const aModules = getImportModule(projet.pays).map((module, index) => {
       return module.nom;
     });
 
@@ -199,7 +189,11 @@ class NewProject extends Component {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color="primary" onClick={() => this.props.saveProject(projet)}>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => this.props.saveProject(projet)}
+          >
             Sauver
           </Button>
           <Button variant="contained" color="secondary" onClick={this.props.handleClose}>
