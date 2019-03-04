@@ -1,9 +1,5 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import Paper from '@material-ui/core/Paper';
-import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 import MenuAppBar from '../components/Menu/AppBar';
 import AppDrawer from '../components/Menu/AppDrawer';
 import Snackbar from '@material-ui/core/Snackbar';
@@ -11,7 +7,6 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import green from '@material-ui/core/colors/green';
 import amber from '@material-ui/core/colors/amber';
 import { CssBaseline } from '@material-ui/core';
-import {classNames} from 'classnames'
 import NewProject from '../components/Modals/NewProject';
 const { dialog } = require('electron').remote;
 const { ipcMain } = require('electron').remote;
