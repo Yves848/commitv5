@@ -6,8 +6,13 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
-import Button from '@material-ui/core/Button'
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import InputAdornment from '@material-ui/core/InputAdornment';
+import Search from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/core/styles';
+const { dialog } = require('electron').remote;
+
 
 const versions = require('../../../Modules/modules.json');
 const aPays = Object.entries(versions).map(entry => {
@@ -17,7 +22,7 @@ const aPays = Object.entries(versions).map(entry => {
 const styles = theme => ({
   container: {
     display: 'flex',
-    flexWrap: 'wrap'
+    flexWrap: 'wrap',
   },
   textField: {
     marginLeft: theme.spacing.unit,
@@ -30,16 +35,27 @@ const styles = theme => ({
     width: 200,
   },
   aImport: {
-    width: 300
-  }
+    width: 400,
+  },
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing.unit * 2,
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
 });
 
 class NewProject extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      pays: 'be',
-      aImport: 0
+      projet: {
+        pays: 'be',
+        aImport: 0,
+        name: ''
+      }
     };
   }
 
@@ -52,31 +68,59 @@ class NewProject extends Component {
 
   handlePaysChange = event => {
     const pays = event.target.value;
+    const { projet } = this.state;
+    projet.pays = pays;
+    projet.aImport = 0;
+    projet.name = '';
     this.setState({
-      pays,
-      aImport: 0
+      projet,
     });
-    console.log(pays);
   };
 
   handleImportChange = event => {
     const aImport = event.target.value;
-    this.setState({
-      aImport
-    })
-    console.log(aImport);
+    const { projet } = this.state;
+    projet.aImport = aImport;
+    this.setState({ projet });
+  };
+
+  handleNameChange = event => {
+    const name = event.target.value;
+    const { projet } = this.state;
+    projet.name = name;
+    this.setState({ projet });
+  };
+
+  chooseProject = () => {
+    const file = dialog.showOpenDialog({
+      properties: ['openFile', 'promptToCreate'],
+      filters: [
+        {
+          name: 'Projets',
+          extensions: ['pj5'],
+        },
+        {
+          name: 'Tous les fichiers',
+          extensions: ['*'],
+        },
+      ],
+    });
+    if (file) {
+      const {projet} = this.state;
+      projet.name = file[0];
+      this.setState({
+        projet
+      });
+    }
   };
 
   render() {
     const { isOpen } = this.props;
     const { classes } = this.props;
-
-    const aModules = this.getImportModule(this.state.pays).map((module, index) => {
-      console.log(module);
-      return(
-      
-        module.nom
-      )
+    const { projet } = this.state;
+    
+    const aModules = this.getImportModule(projet.pays).map((module, index) => {
+      return module.nom;
     });
 
     const pays = aPays.map((p, index) => {
@@ -87,59 +131,82 @@ class NewProject extends Component {
       <Dialog open={isOpen} onClose={this.props.handleClose} fullWidth>
         <DialogTitle>Nouveau Projet...</DialogTitle>
         <DialogContent>
-          <TextField
-            id="select-pays"
-            select
-            label="Pays"
-            className={classes.textField}
-            value={this.state.pays}
-            onChange={event => this.handlePaysChange(event)}
-            SelectProps={{
-              MenuProps: {
-                className: classes.menu,
-              },
-            }}
-            helperText="Choisissez un pays..."
-            margin="normal"
-            variant="outlined"
-            
-          >
-            {aPays.map((option, index) => (
-              <MenuItem key={index} value={option}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
-          <TextField
-            id="select-import"
-            select
-            label="Import"
-            className={classes.textField, classes.aImport}
-            value={this.state.aImport}
-            onChange={event => this.handleImportChange(event)}
-            SelectProps={{
-              MenuProps: {
-                className: classes.menu,
-              },
-            }}
-            helperText="Type d'import..."
-            margin="normal"
-            variant="outlined"
-            
-          >
-            {aModules.map((option, index) => (
-              <MenuItem key={index} value={index}>
-                {option}
-              </MenuItem>
-            ))}
-          </TextField>
+          <div className={classes.root}>
+            <TextField
+              id="select-pays"
+              select
+              label="Pays"
+              className={classes.textField}
+              value={projet.pays}
+              onChange={event => this.handlePaysChange(event)}
+              SelectProps={{
+                MenuProps: {
+                  className: classes.menu,
+                },
+              }}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+            >
+              {aPays.map((option, index) => (
+                <MenuItem key={index} value={option}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              id="select-import"
+              select
+              label="Import"
+              className={classes.textField}
+              value={projet.aImport}
+              onChange={event => this.handleImportChange(event)}
+              SelectProps={{
+                MenuProps: {
+                  className: classes.menu,
+                },
+              }}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+            >
+              {aModules.map((option, index) => (
+                <MenuItem key={index} value={index}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+
+            <TextField
+              id="outlined-name"
+              label="Projet"
+              className={classes.textField}
+              value={projet.name}
+              onChange={event => this.handleNameChange(event)}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton onClick={() => this.chooseProject(projet)}>
+                      <Search />
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+            />
+          </div>
         </DialogContent>
         <DialogActions>
-          <Button variant="contained" color='primary'>Sauver</Button>
-          <Button variant="contained" color='secondary'>Annuler</Button>
+          <Button variant="contained" color="primary" onClick={() => this.props.saveProject(projet)}>
+            Sauver
+          </Button>
+          <Button variant="contained" color="secondary" onClick={this.props.handleClose}>
+            Annuler
+          </Button>
         </DialogActions>
       </Dialog>
-      
     );
   }
 }

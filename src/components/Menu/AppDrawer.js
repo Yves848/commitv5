@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 const { ipcRenderer } = require('electron');
-const drawerWidth = 240;
+const drawerWidth = 250;
 
 const styles = theme => ({
   drawer: {
@@ -21,8 +21,9 @@ const styles = theme => ({
     width: drawerWidth,
   },
   button: {
-    fullWidth: true,
-    marginTop: '5px'
+    fullWidth: false,
+    margin: '5px',
+    width: 235
 
   },
 
@@ -54,7 +55,6 @@ class AppDrawer extends Component {
 
   render() {
     const { isOpen, classes } = this.props;
-    console.log('AppDrawer - render => isOpen ', isOpen);
     return (
       <Drawer
         className={classes.drawer}
