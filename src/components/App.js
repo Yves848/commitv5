@@ -1,7 +1,9 @@
-import "../assets/css/App.css";
-import React, { Component } from "react";
-import MainView from "../hoc/MainWindow";
+import '../assets/css/App.css';
+import React, { Component } from 'react';
+import MainView from '../hoc/MainWindow';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 
+const theme = createMuiTheme();
 
 class App extends React.Component {
   constructor(props) {
@@ -9,12 +11,11 @@ class App extends React.Component {
   }
 
   render() {
-    return(
-      
-      <MainView />
-      
+    return (
+      <MuiThemeProvider theme={theme}>
+        <MainView />
+      </MuiThemeProvider>
     );
-     
   }
 }
 

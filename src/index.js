@@ -5,7 +5,7 @@ import App from './components/App'
 // Since we are using HtmlWebpackPlugin WITHOUT a template, we should create our own root node in the body element before rendering into it
 let root = document.createElement('div')
 
-document.querySelector('title').innerText = "MP3 Covers";
+document.querySelector('title').innerText = "Commit V5 - Electron Powered";
 
 root.id = 'root'
 

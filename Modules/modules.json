@@ -1,0 +1,111 @@
+{
+  "fr": [
+    {
+      "nom": "Caduciel",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "AlliancePremium",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "CIP",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "esculapeV6",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Infosoft",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Leo1",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Leo2",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Periphar",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "PGI",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Pharmalandv7",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "PharmaVitale",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Premium",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Presto2",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Servilog",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Vindilis",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "VisioPharm",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Winpharma",
+      "version": "1.0.0"
+    }
+
+  ],
+  "be": [
+    {
+      "nom": "FarmadTwin",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Greenock",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "IPharma",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "MultiPharma",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "NextPharm",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Officinall",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Offigest",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "Pharmony",
+      "version": "1.0.0"
+    },
+    {
+      "nom": "SabcoNew",
+      "version": "1.0.0"
+    }
+  ]
+}

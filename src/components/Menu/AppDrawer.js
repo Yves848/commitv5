@@ -1,48 +1,92 @@
-import React, { Component } from "react";
-import { withStyles } from "@material-ui/core/styles";
-import Drawer from "@material-ui/core/Drawer";
-import Paper from '@material-ui/core/Paper'
-import Button from "@material-ui/core/Button"
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
+import Drawer from '@material-ui/core/Drawer';
+import Paper from '@material-ui/core/Paper';
+import Button from '@material-ui/core/Button';
+
+const { ipcRenderer } = require('electron');
 const drawerWidth = 240;
 
-const styles = theme =>( {
+const styles = theme => ({
   drawer: {
     width: drawerWidth,
-    flexShrink: 0
+    flexShrink: 0,
   },
   content: {
     flexGrow: 1,
     //padding: theme.spacing.unit * 4,
-    paddingTop: theme.spacing.unit * 8
+    paddingTop: theme.spacing.unit * 8,
   },
   drawerPaper: {
-    width: drawerWidth
+    width: drawerWidth,
   },
   button: {
-    fullWidth: true
+    fullWidth: true,
+    marginTop: '5px'
+
   },
 
-  toolbar: theme.mixins.toolbar
+  toolbar: theme.mixins.toolbar,
 });
 
 class AppDrawer extends Component {
   constructor(props) {
     super(props);
+
+    ipcRenderer.on('openProject-return', (event, args) => {
+      console.log(args);
+    });
   }
+
+  openProject = () => {
+    const response = ipcRenderer.send('openProject');
+    if (response) {
+      console.log(response);
+    }
+  };
+
+  createProject = () => {
+    const response = ipcRenderer.send('createProject');
+    if (response) {
+      console.log(response);
+    }
+  };
 
   render() {
     const { isOpen, classes } = this.props;
-    console.log("AppDrawer - render => isOpen ", isOpen);
+    console.log('AppDrawer - render => isOpen ', isOpen);
     return (
       <Drawer
-      className={classes.drawer}
+        className={classes.drawer}
         variant="permanent"
         classes={{ paper: classes.drawerPaper }}
       >
         <div className={classes.content}>
+          <Button
+            className={classes.button}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              this.createProject();
+            }}
+            fullWidth
+            disableRipple
+          >
+            Créer un projet
+          </Button>
 
-          <Button variant="extendedFab" color="primary" fullWidth>Répertoire</Button>
-
+          <Button
+          className={classes.button}
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              this.openProject();
+            }}
+            fullWidth
+            disableRipple
+          >
+            Ouvrir un projet
+          </Button>
         </div>
       </Drawer>
     );

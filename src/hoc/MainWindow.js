@@ -7,7 +7,11 @@ import Button from "@material-ui/core/Button";
 import MenuAppBar from "../components/Menu/AppBar";
 import AppDrawer from "../components/Menu/AppDrawer";
 import { CssBaseline } from "@material-ui/core";
-const { dialog } = require("electron").remote;
+import NewProject from "../components/Modals/NewProject";
+const { dialog} = require("electron").remote;
+const { ipcMain } = require('electron').remote;
+
+
 
 const styles = theme => ({
   root: {
@@ -22,28 +26,56 @@ const styles = theme => ({
   toolbar: theme.mixins.toolbar
 });
 
+
 class MainView extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isDrawerOpen: false
+      isDrawerOpen: false,
+      isNewProjectOpen: false
     };
+
+    ipcMain.on('openProject', async (event, arg) => {
+      const reponse = await this.createProject();
+      event.sender.send('openProject-return',reponse)
+    })    
+
+    ipcMain.on('createProject',async (event, arg) => {
+      console.log('createProjet')
+      this.setState({
+        isNewProjectOpen : true
+      })
+    })
+  }
+
+  
+
+  createProject =async  () => {
+    
+    return await dialog.showOpenDialog({properties: ['openDirectory','createDirectory']});
   }
 
   handleDrawerOpen = () => {
     const { isDrawerOpen } = this.state;
-    console.log("ManWindow - handleDrawerOpen => isDrawerOpen ", isDrawerOpen);
+    //console.log("ManWindow - handleDrawerOpen => isDrawerOpen ", isDrawerOpen);
     this.setState({
       isDrawerOpen: !isDrawerOpen
     });
   };
 
+  handleClose = () => {
+    this.setState({
+      isNewProjectOpen: false
+    })
+  }
+
   render() {
     const { classes } = this.props;
+    
     return (
       <div className={classes.root}>
         <CssBaseline />
-        <MenuAppBar handleDrawerOpen={this.handleDrawerOpen} />
+        <MenuAppBar />
 
         <AppDrawer
           isOpen={this.state.isDrawerOpen}
@@ -54,6 +86,7 @@ class MainView extends Component {
 
           </div>
         </main>
+        <NewProject isOpen={this.state.isNewProjectOpen} handleClose={() => this.handleClose()}></NewProject>
       </div>
     );
   }

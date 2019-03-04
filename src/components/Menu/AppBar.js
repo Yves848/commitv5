@@ -45,7 +45,7 @@ class MenuAppBar extends Component {
               <MenuIcon />
             </IconButton>
             <Typography variant="h6" color="inherit">
-              Covers
+              Commit V5
             </Typography>
           </Toolbar>
         </AppBar>
