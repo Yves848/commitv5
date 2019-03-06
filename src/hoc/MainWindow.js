@@ -50,7 +50,6 @@ class MainView extends Component {
     });
 
     ipcMain.on('createProject', async (event, arg) => {
-      //console.log('createProjet');
       this.setState({
         isNewProjectOpen: true,
       });
@@ -91,7 +90,6 @@ class MainView extends Component {
   };
 
   saveProject = projet => {
-    //console.log('saveProject', projet);
     this.handleClose();
     saveProject(projet);
     this.setState({
@@ -124,7 +122,7 @@ class MainView extends Component {
             horizontal: 'center',
           }}
           open={snack.open}
-          autoHideDuration={6000}
+          autoHideDuration={5000}
           onClose={this.handleSnackClose}
         >
           <SnackbarContent

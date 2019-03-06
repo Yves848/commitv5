@@ -5,12 +5,13 @@ import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
 
 const { ipcRenderer } = require('electron');
-const drawerWidth = 250;
+const drawerWidth = 150;
 
 const styles = theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
+    padding : theme.spacing.unit
   },
   content: {
     flexGrow: 1,
@@ -21,9 +22,8 @@ const styles = theme => ({
     width: drawerWidth,
   },
   button: {
-    fullWidth: false,
     margin: '5px',
-    width: 235
+    width: drawerWidth - (theme.spacing.unit * 2)
 
   },
 
