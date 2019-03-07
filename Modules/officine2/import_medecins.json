@@ -1,0 +1,3 @@
+[
+    { "libelle" : "Médecins", "sqlSelect" : "medecins.sql", "sqlInsert": "pk_officine2.creer_medecin" }
+]

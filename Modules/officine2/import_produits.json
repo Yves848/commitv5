@@ -1,0 +1,9 @@
+[
+    { "libelle" : "Grossistes", "sqlSelect" : "grossistes.sql", "sqlInsert": "pk_officine2.creer_grossiste" },
+    { "libelle" : "Produits", "sqlSelect" : "produits.sql", "sqlInsert": "pk_officine2.creer_produit" },
+    { "libelle" : "Informations produits spécifiques Luxembourg", "sqlSelect" : "infos_produits_lux.sql", "sqlInsert": "pk_officine2.creer_info_produit_lux" },
+    { "libelle" : "Produits/Peremptions", "sqlSelect" : "produits_peremptions.sql", "sqlInsert": "pk_officine2.creer_date_peremption" },
+    { "libelle" : "Produits/Codes", "sqlSelect" : "produits_codes.sql", "sqlInsert": "pk_officine2.creer_code_produit" },
+    { "libelle" : "Représentants", "sqlSelect" : "representants.sql", "sqlInsert": "pk_officine2.creer_representant" },
+    { "libelle" : "Représentants/Produits", "sqlSelect" : "representants_produits.sql", "sqlInsert": "pk_officine2.creer_representant_produit" }
+]

@@ -1,0 +1,5 @@
+[
+    { "libelle" : "Clients Référents", "sqlSelect" : "clients_referents.sql", "sqlInsert": "pk_officine2.creer_client" },
+    { "libelle" : "Clients/Patients", "sqlSelect" : "clients.sql", "sqlInsert": "pk_officine2.creer_client" },
+    { "libelle" : "Liens Clients/Médecins", "sqlSelect" : "clients_medecins.sql", "sqlInsert": "pk_officine2.creer_client_medecin" }
+]

@@ -1,0 +1,6 @@
+[
+    { "libelle" : "Historiques/Historique délivrances", "sqlSelect" : "histo_delivrances.sql", "sqlInsert": "pk_officine2.creer_historique" },
+    { "libelle" : "Historiques/Historique délivrances lignes", "sqlSelect" : "histo_delivrances_lignes.sql", "sqlInsert": "pk_officine2.creer_historique_ligne" },
+    { "libelle" : "Historiques/Historique commandes", "sqlSelect" : "_commandes.sql", "sqlInsert": "pk_officine2.creer_commande" },
+    { "libelle" : "Historiques/Historique commandes lignes", "sqlSelect" : "_commandes_lignes.sql", "sqlInsert": "pk_officine2.creer_commande_ligne" }    
+]
