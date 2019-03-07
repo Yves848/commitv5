@@ -12,6 +12,7 @@ import Search from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/core/styles';
 const { dialog } = require('electron').remote;
 const { aPays, getImportModule } = require('../../Utils/projects')
+const path = require('path');
 
 const styles = theme => ({
   container: {
@@ -48,7 +49,11 @@ class NewProject extends Component {
       projet: {
         pays: 'be',
         aImport: 0,
+        importName: '',
+        aTransfert: 0,
+        transfertName: '',
         name: '',
+        folder: ''
       },
     };
   }
@@ -97,6 +102,7 @@ class NewProject extends Component {
     if (file) {
       const { projet } = this.state;
       projet.name = file[0];
+      projet.folder = path.dirname(projet.name);
       this.setState({
         projet,
       });

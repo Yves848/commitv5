@@ -103,6 +103,4 @@ const executer = async () => {
     }
 }
 
-(async () => {
-    executer();
-})();
+exports = {executer};
