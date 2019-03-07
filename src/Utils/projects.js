@@ -20,8 +20,8 @@ const saveProject = (projet) => {
   const newProject = {...aProject, ...optionsPha};
   newProject.informations_generales.date_creation = moment(new Date()).format();
   newProject.informations_generales.folder = projet.folder;
-  newProject.informations_generales.pays = project.pays;
-  
+  newProject.informations_generales.pays = projet.pays;
+  newProject.modules[0].import.nom = projet.importName;
   fs.writeFileSync(projet.name,JSON.stringify(newProject));
   
 }
