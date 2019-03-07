@@ -11,6 +11,7 @@ import NewProject from '../components/Modals/NewProject';
 const { dialog } = require('electron').remote;
 const { ipcMain } = require('electron').remote;
 const { saveProject } = require('../Utils/projects');
+import backgroundImg from '../../docs/images/time-and-space-vortex.jpg';
 
 const styles = theme => ({
   root: {
@@ -21,6 +22,10 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 4,
     paddingTop: theme.spacing.unit * 8,
+  },
+  appDrawer: {
+    paddingLeft: theme.spacing.unit * 2,
+    paddingRight: theme.spacing.unit * 2,
   },
   toolbar: theme.mixins.toolbar,
   success: {
@@ -93,12 +98,12 @@ class MainView extends Component {
     this.handleClose();
     saveProject(projet);
     this.setState({
-      snack:{
+      snack: {
         open: true,
         variant: 'success',
-        message: `projet ${projet.name} créé...`
-      }
-    })
+        message: `projet ${projet.name} créé...`,
+      },
+    });
   };
 
   handleSnackClose = () => {
@@ -106,16 +111,25 @@ class MainView extends Component {
       snack: {
         open: false,
         variant: 'success',
-        message: ''
-      }
-    })
-  }
+        message: '',
+      },
+    });
+  };
 
   render() {
     const { classes } = this.props;
     const { snack } = this.state;
     return (
-      <div className={classes.root}>
+      <div
+        className={classes.root}
+        style={{
+          backgroundImage: `url(${backgroundImg})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center center',
+          backgroundRepeat: 'stretch',
+          height: '100vh'
+        }}
+      >
         <Snackbar
           anchorOrigin={{
             vertical: 'top',
@@ -137,6 +151,7 @@ class MainView extends Component {
         <AppDrawer
           isOpen={this.state.isDrawerOpen}
           handleDrawer={this.handleDrawerOpen}
+          className={classes.appDrawer}
         />
         <main className={classes.content}>
           <div className={classes.toolbar} />

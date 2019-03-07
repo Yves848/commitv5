@@ -17,13 +17,15 @@ const styles = theme => ({
     flexGrow: 1,
     //padding: theme.spacing.unit * 4,
     paddingTop: theme.spacing.unit * 8,
+    paddingLeft: theme.spacing.unit,
+    paddingRight: theme.spacing.unit
   },
   drawerPaper: {
     width: drawerWidth,
   },
   button: {
-    margin: '5px',
-    width: drawerWidth - (theme.spacing.unit * 2)
+    marginBottom: '5px',
+    
 
   },
 
@@ -71,12 +73,13 @@ class AppDrawer extends Component {
             }}
             fullWidth
             disableRipple
+            size='small'
           >
-            Créer un projet
+            Créer projet
           </Button>
 
           <Button
-          className={classes.button}
+            className={classes.button}
             variant="contained"
             color="primary"
             onClick={() => {
@@ -84,8 +87,9 @@ class AppDrawer extends Component {
             }}
             fullWidth
             disableRipple
+            size='small'
           >
-            Ouvrir un projet
+            Ouvrir projet
           </Button>
         </div>
       </Drawer>
