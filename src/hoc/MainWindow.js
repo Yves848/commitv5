@@ -44,6 +44,10 @@ class MainView extends Component {
     this.state = {
       isDrawerOpen: false,
       isNewProjectOpen: false,
+      creationDb:{
+         message: '',
+         isOpen: false
+      },
       snack: {
         Open: false,
         Message: '',
@@ -96,8 +100,22 @@ class MainView extends Component {
     });
   };
 
+  updateStatus = (message) => {
+    const { creationDb } = this.state;
+    creationDb.message = message;
+    this.setState({
+      creationDb
+    })
+
+  }
+
   saveProject = async projet => {
     this.handleClose();
+    const {creationDb} = this.state;
+    creationDb.isOpen = true;
+    this.setState({
+      creationDb
+    })
     const newProject = saveProject(projet);
     this.setState({
       snack: {
@@ -109,8 +127,11 @@ class MainView extends Component {
     });
     //console.log(newProject.optionsPha)
     const {optionsPha} = newProject;
-    
-    await baseLocale.creer(optionsPha);
+    await baseLocale.creer(optionsPha, this.updateStatus);
+    creationDb.isOpen = false;
+    this.setState({
+      creationDb
+    })
   };
 
   handleSnackClose = () => {
@@ -123,9 +144,15 @@ class MainView extends Component {
     });
   };
 
+  handleCreateDbClose = () => {
+    this.setState({
+      isCreationDbOpen: false
+    })
+  }
+
   render() {
     const { classes } = this.props;
-    const { snack } = this.state;
+    const { snack, creationDb } = this.state;
     return (
       <div
         className={classes.root}
@@ -137,6 +164,7 @@ class MainView extends Component {
           height: '100vh'
         }}
       >
+      <CreationDb isOpen={creationDb.isOpen} message={creationDb.message}/>
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
