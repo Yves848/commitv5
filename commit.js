@@ -44,7 +44,7 @@ const creerProjet = async(repertoire, pays, mdoule_import, module_transfert, cha
     fs.writeFileSync(`${repertoire}\\commit.prj`, JSON.stringify(prj));
 }
 
-const executer = async () => {
+const executer = async (options) => {
 
     optionsPha.commit = parseArgs(process.argv.slice(2));
 
@@ -103,4 +103,3 @@ const executer = async () => {
     }
 }
 
-exports = {executer};

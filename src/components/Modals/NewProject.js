@@ -73,7 +73,7 @@ class NewProject extends Component {
     });
   };
 
-  handleImportChange = event => {
+  handleImportChange = (event) => {
     const aImport = event.target.value;
     const { projet } = this.state;
     projet.aImport = aImport;

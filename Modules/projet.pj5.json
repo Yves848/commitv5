@@ -1,7 +1,7 @@
 {
   "informations_generales": {
     "folder": "",
-    "pays": "BE",
+    "pays": "",
     "date_creation": "",
     "module_en_cours": "0",
     "page_en_cours": "0",
@@ -9,7 +9,18 @@
   },
   "modules": [{
     "import": {
-      "nom": "Officinnall",
+      "nom": "",
+      "date": "",
+      "version": "",
+      "mode": "0",
+      "resultats":[
+        
+      ]
+    }
+  },
+  {
+    "transfert": {
+      "nom": "",
       "date": "",
       "version": "",
       "mode": "0",

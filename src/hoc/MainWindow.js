@@ -8,9 +8,11 @@ import blue from '@material-ui/core/colors/blue';
 import amber from '@material-ui/core/colors/amber';
 import { CssBaseline } from '@material-ui/core';
 import NewProject from '../components/Modals/NewProject';
+import CreationDb from '../components/Modals/CreationDb';
 const { dialog } = require('electron').remote;
 const { ipcMain } = require('electron').remote;
 const { saveProject } = require('../Utils/projects');
+const baseLocale = require('../../base_locale');
 import backgroundImg from '../../docs/images/writer-background-6.jpg';
 
 const styles = theme => ({
@@ -94,16 +96,21 @@ class MainView extends Component {
     });
   };
 
-  saveProject = projet => {
+  saveProject = async projet => {
     this.handleClose();
-    saveProject(projet);
+    const newProject = saveProject(projet);
     this.setState({
       snack: {
+        projet: newProject,
         open: true,
         variant: 'success',
         message: `projet ${projet.name} créé...`,
       },
     });
+    //console.log(newProject.optionsPha)
+    const {optionsPha} = newProject;
+    
+    await baseLocale.creer(optionsPha);
   };
 
   handleSnackClose = () => {

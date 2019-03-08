@@ -14,6 +14,7 @@ const getImportModule = pays => {
     return version[0] === pays;
   });
   const aModulesPays = aPays[0][1];
+  //console.log('getImportModule', aModulesPays.import)
   return (aModulesPays.import)
 };
 
@@ -22,17 +23,26 @@ const getTransfertModule = pays => {
     return version[0] === pays;
   });
   const aModulesPays = aPays[0][1];
+  //console.log('getTransfertModule', aModulesPays.transfert)
   return (aModulesPays.transfert)
 };
 
 const saveProject = (projet) => {
-  const newProject = {...aProject, ...optionsPha};
+  //console.log('saveProject - projet',projet);
+  const newProject = {...aProject, optionsPha: {...optionsPha}};
+  const pays = projet.pays;
+  const aImport = getImportModule(pays);
+  const aTransfert = getTransfertModule(pays);
+  //console.log('saveProject - newProject',newProject);
+  //console.log('import ',aImport[projet.aImport])
+  //console.log('aTransfert')
   newProject.informations_generales.date_creation = moment(new Date()).format();
   newProject.informations_generales.folder = projet.folder;
   newProject.informations_generales.pays = projet.pays;
-  newProject.modules[0].import.nom = projet.importName;
+  newProject.modules[0].import.nom = aImport[projet.aImport].nom;
+  newProject.modules[1].transfert.nom = aTransfert[projet.aTransfert].nom;
   fs.writeFileSync(projet.name,JSON.stringify(newProject));
-  
+  return newProject
 }
 
 export {saveProject, aPays, getImportModule,getTransfertModule}
