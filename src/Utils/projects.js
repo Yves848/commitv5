@@ -41,6 +41,7 @@ const saveProject = (projet) => {
   newProject.informations_generales.pays = projet.pays;
   newProject.modules[0].import.nom = aImport[projet.aImport].nom;
   newProject.modules[1].transfert.nom = aTransfert[projet.aTransfert].nom;
+  newProject.optionsPha.database = path.resolve(path.dirname(projet.name), 'PHA3.FDB');
   fs.writeFileSync(projet.name,JSON.stringify(newProject));
   return newProject
 }

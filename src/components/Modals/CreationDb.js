@@ -30,7 +30,8 @@ const styles = theme => ({
   paper: {
     padding: theme.spacing.unit * 2,
     textAlign: 'center',
-    color: white
+    color: white,
+    backgroundColor: white
   },
 });
 class CreationDb extends Component {
@@ -40,9 +41,9 @@ class CreationDb extends Component {
      <Dialog open={isOpen} onClose={handleClose} fullWidth>
      <DialogTitle>Création de la Db ..... </DialogTitle>
       <DialogContent>
-        <Paper className={classes.paper}>
+        <div className={classes.paper}>
         <h1>{message}</h1>
-        </Paper>
+        </div>
         
       </DialogContent>
      </Dialog>
