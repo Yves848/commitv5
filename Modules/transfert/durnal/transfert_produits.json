@@ -1,0 +1,193 @@
+[
+    {
+        "libelle" : "Fournisseurs Durnal",
+        "methode" : "GET",
+        "url" : "/durnal-achats/v1/suppliers",
+        "methodeTransformation" : "transformations.transformerFournisseur",
+        "procedureSelection" : "",
+        "procedureCorrespondance" : "pk_durnal.creer_correspondance_frn_durnal"
+    },
+    {
+        "libelle" : "Fournisseurs",
+        "methode" : "PUT",
+        "url" : "/durnal-achats/v1/suppliers/partners",
+        "template" :
+            {
+                "agency":
+                    {
+                        "address": "string",
+                        "address2": "string",
+                        "agencyName": "string",
+                        "city": "string",
+                        "cityId": "string",
+                        "id": "string",
+                        "phoneNumber": "string",
+                        "postalBox": "string"
+                    },
+                "isDefaultDistributor": true,
+                "logo": "string",
+                "name": "string",
+                "pharmalink": true,
+                "prefered": true,
+                "remarques": "string",
+                "representatives":
+                    [
+                        {
+                            "contactFullname": "string",
+                            "email": "string",
+                            "homePhoneNumber": "string",
+                            "id": "string",
+                            "mobilePhoneNumber": "string"
+                        }
+                    ],
+                "supplierId": "string",
+                "supplierType": "GROSSISTE",
+                "website": "string"
+            },
+        "methodeTransformation" : "",
+        "procedureSelection" : "pk_durnal.fournisseur",
+        "procedureCorrespondance" : "pk_durnal.creer_correspondance_fournisseur"
+    },
+    {
+        "libelle" : "Produits",
+        "methode" : "POST",
+        "url" : "/durnal-products/v2/products/bulkInsert",
+        "parametresURL" : [
+            { "companyId" : "DURN0010" }
+        ],
+        "template" :
+            {
+                "idProduit": null,
+                "numeroBaseReference": 0,
+                "codesProduits": [{
+                    "typeCode": 0,
+                    "codeProduit": null
+                }],
+
+                "designations": [{
+                    "designation": null,
+                    "langue": "FR"
+                }],
+                "baseRemboursement": 0,
+                "prixVente": 0,
+                "prixAchatCatalogue": 0,
+                "pamp": 0,
+                "tauxTVA": 0,
+                "etat": 0,
+                "codeRemboursement": null,
+                "liste": 0,
+                "typeProduit": 0,
+                "codifications": []
+            },
+        "procedureSelection" : "pk_durnal.produit",
+        "procedureCorrespondance" : "pk_durnal.creer_correspondance_produit",
+        "tailleQueue" : 10,
+        "taillePaquet" : 43
+    },
+    {
+        "libelle" : "Depôts",
+        "methode" : "POST",
+        "url" : "/durnal-stocks//v2/warehouse/bulkInsert",
+        "parametresURL" : [
+            { "companyId" : "DURN0010" }
+        ],
+        "template" :
+            {
+                "idDepot" : null,
+                "nom" : "string",
+                "robot" : true
+            },
+        "procedureSelection" : "pk_durnal.depot",
+        "procedureCorrespondance" : "pk_durnal.creer_correspondance_depot",
+        "tailleQueue" : 10,
+        "taillePaquet" : 43
+    },
+    {
+        "libelle" : "Stocks",
+        "methode" : "POST",
+        "url" : "/durnal-stocks/v2/stocks/bulkInsert",
+        "parametresURL" : [
+            { "companyId" : "DURN0010" }
+        ],
+        "template" :
+            {
+                "idProduit" : null,
+                "stocks" : [
+                    {
+                        "idDepot" : "string",
+                        "stockMini" : 0,
+                        "stockMaxi" : 0,
+                        "quantite" : 0,
+                        "zoneGeographique" : {
+                            "code" : null,
+                            "libelle" : null
+                        }
+                    }
+                ],
+                "borneMini" : 0,
+                "borneMaxi" : 0,
+                "derniereVente" : null
+            },
+        "procedureSelection" : "pk_durnal.stock",
+        "procedureCorrespondance" : "",
+        "tailleQueue" : 10,
+        "taillePaquet" : 43
+    },
+    {
+        "libelle" : "Stupéfiants",
+        "methode" : "POST",
+        "url" : "/durnal-products/v2/products/bulkStups",
+        "parametresURL" : [
+            { "companyId" : "DURN0010 " }
+        ],
+        "template" :
+            {
+                "idProduit"    : "string",
+                "unitesStupefiant" : 0,
+                "idProduitACommander" : "string",
+                "idProduitUnitaire" : "string"
+            },
+        "procedureSelection" : "pk_durnal.stupefiant",
+        "procedureCorrespondance" : "",
+        "tailleQueue" : 10,
+        "taillePaquet" : 43
+    },
+    {
+        "libelle" : "Informations CNS",
+        "methode" : "POST",
+        "url" : "/durnal-products/v2/products/bulkCns",
+        "parametresURL" : [
+            { "companyId" : "DURN0010 " }
+        ],
+        "template" :
+            {
+                "idProduit": "string",
+                "idProduitAssocie": "string",
+                "quantite": 0
+            },
+        "procedureSelection" : "pk_durnal.produit_cns",
+        "procedureCorrespondance" : "",
+        "tailleQueue" : 10,
+        "taillePaquet" : 43
+    },
+    {
+        "libelle" : "Rotations",
+        "methode" : "POST",
+        "_url" : "",
+        "parametresURL" : [
+            { "companyId" : "03bc0d14-6b98-11e7-907b-a6006ad3dba1" }
+        ],
+        "template" :
+            {
+                "idProduit"    : "string",
+                "mois" : 0,
+                "annee" : 0,
+                "quantite_vendue" : 0,
+                "nombre_ventes" : 0
+            },
+        "procedureSelection" : "pk_durnal.rotation",
+        "procedureCorrespondance" : "",
+        "tailleQueue" : 10,
+        "taillePaquet" : 43
+    }
+]

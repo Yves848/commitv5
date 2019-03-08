@@ -1,0 +1,69 @@
+[
+    {
+        "libelle" : "Patients",
+        "methode" : "POST",
+        "url" : "/durnal-patients/v1/patients/reprise/clients",
+        "methodeTransformation" : "",
+        "template" :
+            {
+                "idClient": null,
+                "matricule": null,
+                "nom": null,
+                "nomJeuneFille": null,
+                "prenom": null,
+                "adresses": [
+                    {
+                        "codePostal": null,
+                        "email": null,
+                        "fax": null,
+                        "pays": null,
+                        "portable": null,
+                        "rue1": null,
+                        "rue2": null,
+                        "telephone": null,
+                        "typeAdresse": null,
+                        "ville": null
+                    }
+                ],
+                "dateNaissance": null,
+                "sexe": "male",
+                "qualite": null,
+                "rangGemellaire": 0,
+                "dateDerniereVisite": null,
+                "facturation": 0,
+                "idCompte": 0,
+                "idProfilRemise": 0,
+                "langue": null,
+                "maison": null,
+                "etage": null,
+                "chambre": null,
+                "lit": null,
+                "medecins": [ ],
+                "remarque": null,
+                "tiersPayant": false
+            },                
+        "procedureSelection" : "pk_durnal.patient",
+        "procedureCorrespondance" : "pk_durnal.creer_correspondance_patient",
+        "tailleQueue" : 10,
+        "taillePaquet" : 43                
+    },
+    {
+        "libelle" : "Lien entourage",
+        "methode" : "POST",
+        "url" : "/durnal-patients/v1/patients/entourage/{idPatientALie}",
+        "methodeTransformation" : "",
+        "template" :
+            {
+                "codeEntourage": "FATHER",
+                "family": "string",
+                "given": "string",
+                "id": "string",
+                "patientId": "string",
+                "uuid": "string"
+            },
+        "procedureSelection" : "pk_durnal.entourage",
+        "procedureCorrespondance" : "",
+        "tailleQueue" : 10,
+        "taillePaquet" : 43                
+    }
+]

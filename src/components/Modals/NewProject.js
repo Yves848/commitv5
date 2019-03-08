@@ -11,7 +11,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/core/styles';
 const { dialog } = require('electron').remote;
-const { aPays, getImportModule } = require('../../Utils/projects')
+const { aPays, getImportModule, getTransfertModule } = require('../../Utils/projects')
 const path = require('path');
 
 const styles = theme => ({
@@ -65,7 +65,9 @@ class NewProject extends Component {
     const { projet } = this.state;
     projet.pays = pays;
     projet.aImport = 0;
-    projet.name = '';
+    projet.importName = '';
+    projet.aTransfert = 0;
+    projet.transfertName = '';
     this.setState({
       projet,
     });
@@ -75,6 +77,13 @@ class NewProject extends Component {
     const aImport = event.target.value;
     const { projet } = this.state;
     projet.aImport = aImport;
+    this.setState({ projet });
+  };
+
+  handleTransfertChange = event => {
+    const aTransfert = event.target.value;
+    const { projet } = this.state;
+    projet.aTransfert = aTransfert;
     this.setState({ projet });
   };
 
@@ -114,7 +123,11 @@ class NewProject extends Component {
     const { classes } = this.props;
     const { projet } = this.state;
 
-    const aModules = getImportModule(projet.pays).map((module, index) => {
+    const aImport = getImportModule(projet.pays).map((module, index) => {
+      return module.nom;
+    });
+
+    const aTransfert = getTransfertModule(projet.pays).map((module, index) => {
       return module.nom;
     });
 
@@ -165,7 +178,29 @@ class NewProject extends Component {
               variant="outlined"
               fullWidth
             >
-              {aModules.map((option, index) => (
+              {aImport.map((option, index) => (
+                <MenuItem key={index} value={index}>
+                  {option}
+                </MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              id="select-transfert"
+              select
+              label="Transfert"
+              className={classes.textField}
+              value={projet.aImport}
+              onChange={event => this.handleTransfertChange(event)}
+              SelectProps={{
+                MenuProps: {
+                  className: classes.menu,
+                },
+              }}
+              margin="normal"
+              variant="outlined"
+              fullWidth
+            >
+              {aTransfert.map((option, index) => (
                 <MenuItem key={index} value={index}>
                   {option}
                 </MenuItem>

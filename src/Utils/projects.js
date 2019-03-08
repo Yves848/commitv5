@@ -13,7 +13,16 @@ const getImportModule = pays => {
   const aPays = Object.entries(versions).filter(version => {
     return version[0] === pays;
   });
-  return aPays[0][1];
+  const aModulesPays = aPays[0][1];
+  return (aModulesPays.import)
+};
+
+const getTransfertModule = pays => {
+  const aPays = Object.entries(versions).filter(version => {
+    return version[0] === pays;
+  });
+  const aModulesPays = aPays[0][1];
+  return (aModulesPays.transfert)
 };
 
 const saveProject = (projet) => {
@@ -26,4 +35,4 @@ const saveProject = (projet) => {
   
 }
 
-export {saveProject, aPays, getImportModule}
+export {saveProject, aPays, getImportModule,getTransfertModule}

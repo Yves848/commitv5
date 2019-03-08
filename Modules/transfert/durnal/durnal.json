@@ -1,0 +1,23 @@
+[
+    {
+        "libelleGroupe" : "Praticiens",
+        "procedureSuppression" : "pk_durnal.supprimer_praticiens_importes",
+        "traitements" : "transfert_praticiens.json"
+    },
+    {
+        "libelleGroupe" : "Correspondances Patients",
+        "procedureSuppression" : "pk_durnal.supprimer_patients_transferes",
+        "traitements" : "transfert_patients.json"
+    },
+    {
+        "libelleGroupe" : "Correspondances Produits",
+        "procedureSuppression" : "pk_durnal.supprimer_produits_transferes",
+        "traitements" : "transfert_produits.json"
+    },
+    {
+        "libelleGroupe" : "Autres données",
+        "procedureSuppression" : "",
+        "traitements" : "_transfert_autres_donnees.json"
+    }
+    
+]

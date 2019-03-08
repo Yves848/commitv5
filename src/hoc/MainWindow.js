@@ -4,7 +4,7 @@ import MenuAppBar from '../components/Menu/AppBar';
 import AppDrawer from '../components/Menu/AppDrawer';
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
-import green from '@material-ui/core/colors/green';
+import blue from '@material-ui/core/colors/blue';
 import amber from '@material-ui/core/colors/amber';
 import { CssBaseline } from '@material-ui/core';
 import NewProject from '../components/Modals/NewProject';
@@ -29,7 +29,7 @@ const styles = theme => ({
   },
   toolbar: theme.mixins.toolbar,
   success: {
-    backgroundColor: green[600],
+    backgroundColor: blue[500],
   },
   warning: {
     backgroundColor: amber[700],
@@ -132,8 +132,8 @@ class MainView extends Component {
       >
         <Snackbar
           anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'center',
+            vertical: 'bottom',
+            horizontal: 'left',
           }}
           open={snack.open}
           autoHideDuration={5000}

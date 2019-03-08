@@ -1,0 +1,84 @@
+[
+    {
+        "libelle" : "Commentaires",
+        "url" : "",
+        "methodeTransformation" : "",
+        "template" :
+            {
+                "idCommentaire" : "",
+                "typeCommentaire" : 0,
+                "commentaire" : ""
+            },                
+        "procedureSelection" : "pk_durnal.commentaire",
+        "procedureCorrespondance" : "",
+        "tailleQueue" : 10,
+        "taillePaquet" : 43                
+    },
+    {
+        "libelle" : "Historique délivrances",
+        "url" : "/durnal-sale/v1/reprise/histovente",        
+        "parametresURL" : [
+            { "pharmacyId" : "03bc0d14-6b98-11e7-907b-a6006ad3dba1" }
+        ],
+        "methode" : "PUT",
+        "methodeTransformation" : "",
+        "template" :
+            {
+                "dateActe": "string",
+                "dateOrdonnance": "string",
+                "idClient": "string",
+                "idOperateur": "string",
+                "idOrigine": "string",
+                "lignes": [
+                    {
+                        "typeCodeProduit": 0,
+                        "produit": "string",
+                        "designationProduit": "string",
+                        "quantite": "string",
+                        "prixAchat": 0,
+                        "prixAchatRemise": 0,
+                        "prixVente": 0
+                    }
+                ],
+                "typeCodePraticien": 0,
+                "praticien": "string",
+                "nomPraticien": "string",
+                "prenomPraticien": "string",
+                "numeroFacture": "string"
+            },               
+        "procedureSelection" : "pk_durnal.histo_delivrance",
+        "procedureCorrespondance" : "",
+        "tailleQueue" : 10,
+        "taillePaquet" : 43                
+    },
+    {
+        "libelle" : "Achats",
+        "url" : "/durnal-sale/v1/reprise/histovente",        
+        "methodeTransformation" : "",
+        "template" :
+            {
+                "idCommande" : "string",
+                "idFournisseur" : "string",
+                "dateCommande" : "2012-01-04T23:00:00.000Z",
+                "montantHT" : 153.20,
+                "etat" : 3,
+                "lignes" : [
+                    {
+                    "idProduit" : "string",
+                    "quantiteCommandee" : 0,
+                    "quantiteRecue" : 0,
+                    "prixAchatCatalogue" : 10.235,
+                    "prixAchatRemise" : 8.524,
+                    "prixVente" : 15.23,
+                    "unitesGratuites" : 0,
+                    "dateReception" : "2012-01-05T23:00:00.000Z",
+                    "receptionFinanciere" : false
+                    }
+                ]
+            },        
+        "procedureSelection" : "pk_durnal.achat",
+        "procedureCorrespondance" : "",
+        "tailleQueue" : 10,
+        "taillePaquet" : 43                
+    }
+]

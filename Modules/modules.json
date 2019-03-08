@@ -1,116 +1,137 @@
 {
-  "fr": [
-    {
-      "nom": "Caduciel",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "AlliancePremium",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "CIP",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "esculapeV6",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Infosoft",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Leo1",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Leo2",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Periphar",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "PGI",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Pharmalandv7",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "PharmaVitale",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Premium",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Presto2",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Servilog",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Vindilis",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "VisioPharm",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Winpharma",
-      "version": "1.0.0"
-    }
+  "fr": {
+    "import": [{
+        "nom": "caduciel",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "alliancePremium",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "cip",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "esculapeV6",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "infosoft",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "leo1",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "leo2",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "periphar",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "pgi",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "pharmalandv7",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "pharmaVitale",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "premium",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "presto2",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "servilog",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "vindilis",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "visioPharm",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "winpharma",
+        "version": "1.0.0"
+      }
 
-  ],
-  "be": [
-    {
-      "nom": "FarmadTwin",
+    ],
+    "transfert": [{
+        "nom": "lgpi",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "durnal",
+        "version": "1.0.0"
+      }
+    ]
+
+  },
+  "be": {
+    "import": [{
+        "nom": "farmadTwin",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "greenock",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "iPharma",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "multiPharma",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "nextPharm",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "officinall",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "offigest",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "pharmony",
+        "version": "1.0.0"
+      },
+      {
+        "nom": "sabcoNew",
+        "version": "1.0.0"
+      }
+    ],
+    "transfert": [{
+      "nom": "ultimate",
       "version": "1.0.0"
-    },
-    {
-      "nom": "Greenock",
+    }]
+  },
+  "lu": {
+    "import": [{
+      "nom": "officine2",
       "version": "1.0.0"
-    },
-    {
-      "nom": "IPharma",
+    }],
+    "transfert": [{
+      "nom": "durnal",
       "version": "1.0.0"
-    },
-    {
-      "nom": "MultiPharma",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "NextPharm",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Officinall",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Offigest",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "Pharmony",
-      "version": "1.0.0"
-    },
-    {
-      "nom": "SabcoNew",
-      "version": "1.0.0"
-    }
-  ], "lu": [
-    {
-      "nom": "Officine2",
-      "version": "1.0.0"
-    }
-  ]
+    }]
+  }
 }
