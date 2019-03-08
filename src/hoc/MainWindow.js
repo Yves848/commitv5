@@ -11,7 +11,7 @@ import NewProject from '../components/Modals/NewProject';
 const { dialog } = require('electron').remote;
 const { ipcMain } = require('electron').remote;
 const { saveProject } = require('../Utils/projects');
-import backgroundImg from '../../docs/images/time-and-space-vortex.jpg';
+import backgroundImg from '../../docs/images/writer-background-6.jpg';
 
 const styles = theme => ({
   root: {
