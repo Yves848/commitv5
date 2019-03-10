@@ -11,7 +11,8 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Search from '@material-ui/icons/Search';
 import { withStyles } from '@material-ui/core/styles';
 const { dialog } = require('electron').remote;
-const { aPays, getImportModule, getTransfertModule } = require('../../Utils/projects')
+//const { aPays, getImportModule, getTransfertModule } = require('../../Utils/projects')
+const { projet, projetConstants } = require('../../classes/project');
 const path = require('path');
 
 const styles = theme => ({
@@ -58,11 +59,12 @@ class NewProject extends Component {
     };
   }
 
-  
+
 
   handlePaysChange = event => {
     const pays = event.target.value;
     const { projet } = this.state;
+    console.log("handlePaysChange", pays)
     projet.pays = pays;
     projet.aImport = 0;
     projet.importName = '';
@@ -123,16 +125,14 @@ class NewProject extends Component {
     const { classes } = this.props;
     const { projet } = this.state;
 
-    const aImport = getImportModule(projet.pays).map((module, index) => {
+    const Pays = projetConstants.pays;
+
+    const aImport = projetConstants.getImportModule(projet.pays).map((module, index) => {
       return module.nom;
     });
 
-    const aTransfert = getTransfertModule(projet.pays).map((module, index) => {
+    const aTransfert = projetConstants.getTransfertModule(projet.pays).map((module, index) => {
       return module.nom;
-    });
-
-    const pays = aPays.map((p, index) => {
-      <option value={index}>{p}</option>;
     });
 
     return (
@@ -156,11 +156,12 @@ class NewProject extends Component {
               variant="outlined"
               fullWidth
             >
-              {aPays.map((option, index) => (
-                <MenuItem key={index} value={option}>
-                  {option}
-                </MenuItem>
-              ))}
+              {Pays.map((option, index) => {
+                return (
+                  <MenuItem key={index} value={option}>
+                    {option}
+                  </MenuItem>)
+              })}
             </TextField>
             <TextField
               id="select-import"
@@ -178,11 +179,12 @@ class NewProject extends Component {
               variant="outlined"
               fullWidth
             >
-              {aImport.map((option, index) => (
+              {aImport.map((option, index) => {
+                return(
                 <MenuItem key={index} value={index}>
                   {option}
-                </MenuItem>
-              ))}
+                </MenuItem>)
+              })}
             </TextField>
             <TextField
               id="select-transfert"
