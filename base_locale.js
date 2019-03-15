@@ -6,7 +6,7 @@ const dt = require('date-and-time');
 const promise = require('bluebird');
 const childProcess = require('child_process');
 const firebird = require('node-firebird-dev');
-
+const {asyncForEach} = require('./src/Classes/utils')
 promise.promisifyAll(firebird);
 
 const C_CHEMIN_BASE = path.resolve(path.resolve('./'));
@@ -31,55 +31,60 @@ const executerScript = async (utilisateur, motDePasse, sql, db, updateStatus) =>
         p.push(db);
     }
     Array.prototype.push.apply(p, ['-i', sql]);
+    //console.log(sql)
     updateStatus(sql)
     const stout = childProcess.execFileSync(`${C_CHEMIN_BASE}\\fb\\isql.exe`, p);
-    console.log(new Date().toISOString(), `Execution du script ${sql} : ${stout.stderr == undefined ? 'Ok :)' : stout.stderr}`);
+//    console.log(new Date().toISOString(), `Execution du script ${sql} : ${stout.stderr == undefined ? 'Ok :)' : stout.stderr}`);
 }
 
-const executerScriptsRepertoire = (db, utilisateur, motDePasse, repertoire, updateStatus) => {
-    if (repertoire && verifierRepExiste(repertoire)) {
-        console.log('executerScriptsRepertoire - repertoire', repertoire)
-        fs.readdirSync(repertoire).forEach(file => {
-            const sql = repertoire + "\\" + file;
-            console.log('executerScriptsRepertoire - sql', sql)
-            if (!fs.statSync(sql).isDirectory()) {
-                executerScript(utilisateur, motDePasse, sql, db, updateStatus);
-            }
-        })
-    }
+const executerScriptsRepertoire = async (db, utilisateur, motDePasse, repertoire, updateStatus) => {
+    return new Promise(async (resolve, reject) => {
+        if (repertoire && verifierRepExiste(repertoire)) {
+            //console.log('executerScriptsRepertoire - repertoire', repertoire)
+            const files = fs.readdirSync(repertoire);
+            await asyncForEach(files, async (file, index) => {
+                const sql = repertoire + "\\" + file;
+                //console.log('executerScriptsRepertoire - sql', sql)
+                if (!fs.statSync(sql).isDirectory()) {
+                    await executerScript(utilisateur, motDePasse, sql, db, updateStatus);
+                }
+            })
+            resolve();
+        }
+    })
+    
 }
 
-const executerScripts = (options, updateStatus) => {
-    try {
-        const cheminDb = options.database;
-        console.log('executerScripts - options',options)
-        console.log('executerScripts - cheminDb',cheminDb)
-        console.log('executerScripts - C_CHEMIN_BASE_SCRIPT_SQL',C_CHEMIN_BASE_SCRIPT_SQL)
-        executerScriptsRepertoire(cheminDb, options.user, options.password, C_CHEMIN_BASE_SCRIPT_SQL, updateStatus);
-        if (options.commit.pays) executerScriptsRepertoire(cheminDb, options.user, options.password, `${C_CHEMIN_BASE_SCRIPT_SQL}\\${options.commit.pays}`);
-        if (options.commit.import) executerScript(options.user, options.password, `${C_CHEMIN_BASE}\\modules\\import\\${options.commit.import}\\${options.commit.import}.sql`, cheminDb);
-        if (options.commit.transfert) executerScript(options.user, options.password, `${C_CHEMIN_BASE}\\modules\\transfert\\${options.commit.transfert}\\${options.commit.transfert}.sql`, cheminDb);
-    } catch (e) {
-        console.log(new Date().toISOString(), `Erreur lors de l'exécution des scripts: ${e}`)
-    }
+const executerScripts = async (options, updateStatus) => {
+    return new Promise(async (resolve, reject) => {
+        try {
+            const cheminDb = options.database;
+            console.log('executerScripts - options',options)
+            console.log('executerScripts - cheminDb',cheminDb)
+            console.log('executerScripts - C_CHEMIN_BASE_SCRIPT_SQL',C_CHEMIN_BASE_SCRIPT_SQL)
+            await executerScriptsRepertoire(cheminDb, options.user, options.password, C_CHEMIN_BASE_SCRIPT_SQL, updateStatus);
+            if (options.commit.pays) executerScriptsRepertoire(cheminDb, options.user, options.password, `${C_CHEMIN_BASE_SCRIPT_SQL}\\${options.commit.pays}`);
+            if (options.commit.import) executerScript(options.user, options.password, `${C_CHEMIN_BASE}\\modules\\import\\${options.commit.import}\\${options.commit.import}.sql`, cheminDb);
+            if (options.commit.transfert) executerScript(options.user, options.password, `${C_CHEMIN_BASE}\\modules\\transfert\\${options.commit.transfert}\\${options.commit.transfert}.sql`, cheminDb);
+            resolve();
+        } catch (e) {
+            console.log(new Date().toISOString(), `Erreur lors de l'exécution des scripts: ${e}`)
+            reject(e);
+        }
+    })
+    
 }
 
 const creer = async (options, updateStatus) => {
     try {
-        console.log('creer',options)
         // Création de la base locale
-        process.stdout.write('Création de la base locale en cours...');
-        console.log('Création de la base locale en cours...')
-        updateStatus('Création de la base locale en cours...');
+        await updateStatus('Création de la base locale en cours...');
         const db = await firebird.createAsync(options);
-        
-        process.stdout.write('OK :)\n');
-        console.log('OK :)')
-        updateStatus('Ok ! ;)');
+        await updateStatus('Ok ! ;)');
         db.detach();
         
         // Exécution des scripts        
-        executerScripts(options, updateStatus);
+        await executerScripts(options, updateStatus);
     } catch (e) {
         console.log(new Date().toISOString(), `Erreur lors de la création de la base locale  : ${e.message}`);
         //process.exit(1);

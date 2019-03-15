@@ -44,9 +44,9 @@ class MainView extends Component {
     this.state = {
       isDrawerOpen: false,
       isNewProjectOpen: false,
-      creationDb:{
-         message: '',
-         isOpen: false
+      creationDb: {
+        message: '',
+        isOpen: false,
       },
       snack: {
         Open: false,
@@ -100,22 +100,24 @@ class MainView extends Component {
     });
   };
 
-  updateStatus = (message) => {
-    const { creationDb } = this.state;
-    creationDb.message = message;
-    this.setState({
-      creationDb
-    })
-
-  }
+  updateStatus = message => {
+    
+      const { creationDb } = this.state;
+      creationDb.message = message;
+      console.log('updateStatus',creationDb)
+      this.setState({
+        creationDb,
+      });
+    
+  };
 
   saveProject = async projet => {
     this.handleClose();
-    const {creationDb} = this.state;
+    const { creationDb } = this.state;
     creationDb.isOpen = true;
     this.setState({
-      creationDb
-    })
+      creationDb,
+    });
     const newProject = saveProject(projet);
     this.setState({
       snack: {
@@ -126,12 +128,12 @@ class MainView extends Component {
       },
     });
     //console.log(newProject.optionsPha)
-    const {optionsPha} = newProject;
+    const { optionsPha } = newProject;
     await baseLocale.creer(optionsPha, this.updateStatus);
     creationDb.isOpen = false;
     this.setState({
-      creationDb
-    })
+      creationDb,
+    });
   };
 
   handleSnackClose = () => {
@@ -146,9 +148,9 @@ class MainView extends Component {
 
   handleCreateDbClose = () => {
     this.setState({
-      isCreationDbOpen: false
-    })
-  }
+      isCreationDbOpen: false,
+    });
+  };
 
   render() {
     const { classes } = this.props;
@@ -161,10 +163,11 @@ class MainView extends Component {
           backgroundSize: 'cover',
           backgroundPosition: 'center center',
           backgroundRepeat: 'stretch',
-          height: '100vh'
+          height: '100vh',
         }}
       >
-      <CreationDb isOpen={creationDb.isOpen} message={creationDb.message}/>
+      {creationDb.message}
+        <CreationDb isOpen={creationDb.isOpen} message={creationDb.message} />
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
@@ -174,28 +177,16 @@ class MainView extends Component {
           autoHideDuration={5000}
           onClose={this.handleSnackClose}
         >
-          <SnackbarContent
-            onClose={this.handleSnackClose}
-            className={classes[snack.variant]}
-            message={snack.message}
-          />
+          <SnackbarContent onClose={this.handleSnackClose} className={classes[snack.variant]} message={snack.message} />
         </Snackbar>
         <CssBaseline />
         <MenuAppBar />
 
-        <AppDrawer
-          isOpen={this.state.isDrawerOpen}
-          handleDrawer={this.handleDrawerOpen}
-          className={classes.appDrawer}
-        />
+        <AppDrawer isOpen={this.state.isDrawerOpen} handleDrawer={this.handleDrawerOpen} className={classes.appDrawer} />
         <main className={classes.content}>
           <div className={classes.toolbar} />
         </main>
-        <NewProject
-          isOpen={this.state.isNewProjectOpen}
-          handleClose={() => this.handleClose()}
-          saveProject={this.saveProject}
-        />
+        <NewProject isOpen={this.state.isNewProjectOpen} handleClose={() => this.handleClose()} saveProject={this.saveProject} />
       </div>
     );
   }
