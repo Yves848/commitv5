@@ -12,7 +12,7 @@ import CreationDb from '../components/Modals/CreationDb';
 const { dialog } = require('electron').remote;
 const { ipcMain } = require('electron').remote;
 const { saveProject } = require('../Utils/projects');
-const baseLocale = require('../../base_locale');
+import {baseLocale} from '../Classes/baseLocale'
 import backgroundImg from '../../docs/images/writer-background-6.jpg';
 
 const styles = theme => ({
@@ -53,6 +53,7 @@ class MainView extends Component {
         Message: '',
         Variant: 'success',
       },
+      db: null
     };
 
     ipcMain.on('openProject', async (event, arg) => {
@@ -104,7 +105,6 @@ class MainView extends Component {
     
       const { creationDb } = this.state;
       creationDb.message = message;
-      console.log('updateStatus',creationDb)
       this.setState({
         creationDb,
       });
@@ -119,6 +119,12 @@ class MainView extends Component {
       creationDb,
     });
     const newProject = saveProject(projet);
+    
+    //console.log(newProject.optionsPha)
+    const { optionsPha } = newProject;
+    //await baseLocale.creer(optionsPha, this.updateStatus);
+    const db = new baseLocale(optionsPha, this.updateStatus);
+    await db.creerDB();
     this.setState({
       snack: {
         projet: newProject,
@@ -127,9 +133,6 @@ class MainView extends Component {
         message: `projet ${projet.name} créé...`,
       },
     });
-    //console.log(newProject.optionsPha)
-    const { optionsPha } = newProject;
-    await baseLocale.creer(optionsPha, this.updateStatus);
     creationDb.isOpen = false;
     this.setState({
       creationDb,
@@ -166,7 +169,6 @@ class MainView extends Component {
           height: '100vh',
         }}
       >
-      {creationDb.message}
         <CreationDb isOpen={creationDb.isOpen} message={creationDb.message} />
         <Snackbar
           anchorOrigin={{
@@ -174,10 +176,10 @@ class MainView extends Component {
             horizontal: 'left',
           }}
           open={snack.open}
-          autoHideDuration={5000}
+          autoHideDuration={2500}
           onClose={this.handleSnackClose}
         >
-          <SnackbarContent onClose={this.handleSnackClose} className={classes[snack.variant]} message={snack.message} />
+          <SnackbarContent className={classes[snack.variant]} message={snack.message} />
         </Snackbar>
         <CssBaseline />
         <MenuAppBar />

@@ -4,6 +4,7 @@ import Dialog from '@material-ui/core/Dialog';
 import { DialogContent } from '@material-ui/core';
 import {Paper} from '@material-ui/core'
 import {white} from '@material-ui/core/colors'
+import CircularProgress from '@material-ui/core/CircularProgress';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -43,6 +44,7 @@ class CreationDb extends Component {
       <DialogContent>
         <div className={classes.paper}>
         <h1>{message}</h1>
+        <CircularProgress></CircularProgress>
         </div>
         
       </DialogContent>
