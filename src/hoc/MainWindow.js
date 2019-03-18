@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { compose } from 'recompose';
 import { withStyles } from '@material-ui/core/styles';
 import MenuAppBar from '../components/Menu/AppBar';
 import AppDrawer from '../components/Menu/AppDrawer';
@@ -9,10 +10,12 @@ import amber from '@material-ui/core/colors/amber';
 import { CssBaseline } from '@material-ui/core';
 import NewProject from '../components/Modals/NewProject';
 import CreationDb from '../components/Modals/CreationDb';
+import Project from '../components/Project';
+import { withProject } from '../Classes/ProjectContext';
+import { projet } from '../Classes/project';
 const { dialog } = require('electron').remote;
 const { ipcMain } = require('electron').remote;
-const { saveProject } = require('../Utils/projects');
-import {baseLocale} from '../Classes/baseLocale'
+import { baseLocale } from '../Classes/baseLocale';
 import backgroundImg from '../../docs/images/writer-background-6.jpg';
 
 const styles = theme => ({
@@ -22,8 +25,12 @@ const styles = theme => ({
   },
   content: {
     flexGrow: 1,
-    padding: theme.spacing.unit * 4,
-    paddingTop: theme.spacing.unit * 8,
+    padding: theme.spacing.unit,
+  },
+  project: {
+    flexGrow: 1,
+    padding: theme.spacing.unit * 2,
+    marginTop: theme.spacing.unit * 2
   },
   appDrawer: {
     paddingLeft: theme.spacing.unit * 2,
@@ -53,7 +60,8 @@ class MainView extends Component {
         Message: '',
         Variant: 'success',
       },
-      db: null
+      db: null,
+      project: null,
     };
 
     ipcMain.on('openProject', async (event, arg) => {
@@ -102,26 +110,25 @@ class MainView extends Component {
   };
 
   updateStatus = message => {
-    
-      const { creationDb } = this.state;
-      creationDb.message = message;
-      this.setState({
-        creationDb,
-      });
-    
+    const { creationDb } = this.state;
+    creationDb.message = message;
+    this.setState({
+      creationDb,
+    });
   };
 
-  saveProject = async projet => {
+  saveProject = async aProjet => {
     this.handleClose();
     const { creationDb } = this.state;
     creationDb.isOpen = true;
     this.setState({
       creationDb,
     });
-    const newProject = saveProject(projet);
-    
+    const newProject = new projet();
+    newProject.saveProject(aProjet);
+
     //console.log(newProject.optionsPha)
-    const { optionsPha } = newProject;
+    const { optionsPha } = newProject.projet;
     //await baseLocale.creer(optionsPha, this.updateStatus);
     const db = new baseLocale(optionsPha, this.updateStatus);
     await db.creerDB();
@@ -132,6 +139,7 @@ class MainView extends Component {
         variant: 'success',
         message: `projet ${projet.name} créé...`,
       },
+      project: newProject,
     });
     creationDb.isOpen = false;
     this.setState({
@@ -157,7 +165,8 @@ class MainView extends Component {
 
   render() {
     const { classes } = this.props;
-    const { snack, creationDb } = this.state;
+    const { snack, creationDb, project } = this.state;
+    //console.log(project)
     return (
       <div
         className={classes.root}
@@ -186,12 +195,16 @@ class MainView extends Component {
 
         <AppDrawer isOpen={this.state.isDrawerOpen} handleDrawer={this.handleDrawerOpen} className={classes.appDrawer} />
         <main className={classes.content}>
-          <div className={classes.toolbar} />
+          <div className={classes.project}>
+            <Project projet={project} />
+          </div>
         </main>
+
         <NewProject isOpen={this.state.isNewProjectOpen} handleClose={() => this.handleClose()} saveProject={this.saveProject} />
       </div>
     );
   }
 }
 
-export default withStyles(styles)(MainView);
+//export default withStyles(styles)(MainView);
+export default compose(withStyles(styles))(MainView);

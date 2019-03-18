@@ -28,14 +28,10 @@ const getTransfertModule = pays => {
 };
 
 const saveProject = (projet) => {
-  //console.log('saveProject - projet',projet);
   const newProject = {...aProject, optionsPha: {...optionsPha}};
   const pays = projet.pays;
   const aImport = getImportModule(pays);
   const aTransfert = getTransfertModule(pays);
-  //console.log('saveProject - newProject',newProject);
-  //console.log('import ',aImport[projet.aImport])
-  //console.log('aTransfert')
   newProject.informations_generales.date_creation = moment(new Date()).format();
   newProject.informations_generales.folder = projet.folder;
   newProject.informations_generales.pays = projet.pays;
