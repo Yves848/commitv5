@@ -31,7 +31,8 @@ class projet {
 
   getModuleGroups() {
     const {project} = this;
-    const moduleImport = this.moduleImport('');
+    const moduleImport = project.modules[0].import.nom;
+    console.log(moduleImport);
     const sqlFolder = path.resolve('./modules/import',moduleImport)
     return sqlFolder;
   }

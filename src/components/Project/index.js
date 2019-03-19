@@ -16,26 +16,26 @@ class Projet extends Component {
   }
 
   componentDidUpdate(prevprops) {
-     if (this.props.projet && prevprops.projet !== this.props.projet) {
+     if (this.props.aProjet && prevprops.aProjet !== this.props.aProjet) {
       console.log('prevprops',prevprops)
-      console.log('this.props.projet',this.props.projet)
+      console.log('this.props.projet',this.props.aProjet)
 
       return true;
      }
      
   }
   render() {
-   const {projet, classes} = this.props;
-   if (projet && projet.project) {
-      //console.log(projet.project)
-      console.log(projet.getModuleGroups());
+   const {aProjet, classes} = this.props;
+   if (aProjet && aProjet.project) {
+      console.log(aProjet)
+      //console.log(projet.project.getModuleGroups());
    }
    
 
     return (
       <Paper className={classes.root}>
         <h1>Projet</h1>
-        {projet && <h1>{projet.project.informations_generales.folder}</h1>}
+        {aProjet && <h1>{aProjet.project.informations_generales.folder}</h1>}
       </Paper>
     );
   }

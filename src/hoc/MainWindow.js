@@ -196,7 +196,7 @@ class MainView extends Component {
         <AppDrawer isOpen={this.state.isDrawerOpen} handleDrawer={this.handleDrawerOpen} className={classes.appDrawer} />
         <main className={classes.content}>
           <div className={classes.project}>
-            <Project projet={project} />
+            <Project aProjet={project} />
           </div>
         </main>
 
