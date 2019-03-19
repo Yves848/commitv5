@@ -47,21 +47,34 @@ class ModGroups extends Component {
       const details = modulesDetails[detail];
       return details.map((detail, index) => {
         return (
-          <Grid container direction="row" key={index} className={classes.content} justify='space-between' alignContent="flex-start" alignItems="flex-end">
+          <Grid
+            container
+            direction="row"
+            key={index}
+            className={classes.content}
+            justify="space-between"
+            alignContent="flex-start"
+            alignItems="flex-end"
+          >
             <Grid item xs={1}>
               <Button size="small" variant="contained">
                 <SyncIcon />
               </Button>
             </Grid>
-            <Grid item xs className={classes.gridItem} >
-            
+            <Grid item xs className={classes.gridItem}>
               {detail.libelle}
-            
             </Grid>
-            <Grid item xs={2} className={classes.gridItem}>
-            
-              <LinearProgress variant="determinate" value={0}/>
+            <Grid item xs={1}>
+              0
             </Grid>
+            <Grid item xs={1}>
+              0
+            </Grid>
+            <Grid item xs={1}>
+              0
+            </Grid>
+            <Grid item xs={2} className={classes.gridItem} />
+            <Grid item xs={2} className={classes.gridItem} />
           </Grid>
         );
       });
@@ -96,6 +109,39 @@ class ModGroups extends Component {
             <TableRow>
               <TableCell width={15}>Groupes</TableCell>
               <TableCell width="100%">Description</TableCell>
+            </TableRow>
+            <TableRow>
+              <TableCell width={15} />
+              <TableCell width="100%">
+                <Grid
+                  container
+                  direction="row"
+                  className={classes.content}
+                  justify="space-between"
+                  alignContent="flex-start"
+                  alignItems="flex-end"
+                >
+                  <Grid item xs={1}  className={classes.gridItem}/>
+                  <Grid item xs className={classes.gridItem}>
+                    Données
+                  </Grid>
+                  <Grid item xs={1}  className={classes.gridItem}>
+                    Succès
+                  </Grid>
+                  <Grid item xs={1}  className={classes.gridItem}>
+                    Avertissements
+                  </Grid>
+                  <Grid item xs={1}  className={classes.gridItem}>
+                    Erreurs
+                  </Grid>
+                  <Grid item xs={2} className={classes.gridItem}>
+                    Début
+                  </Grid>
+                  <Grid item xs={2} className={classes.gridItem}>
+                    Fin
+                  </Grid>
+                </Grid>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>{tableBody}</TableBody>

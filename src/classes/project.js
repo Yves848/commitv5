@@ -34,10 +34,7 @@ class projet {
   }
 
   async loadProject(file) {
-    console.log(file);
-
     this.project = JSON.parse(fs.readFileSync(file));
-
     this.modulesDetails = await this.getModulesDetails();
     
   }
@@ -48,12 +45,10 @@ class projet {
       const moduleImport = project.modules[0].import.nom;
       const moduleDefFile = path.resolve(`./modules/import/${moduleImport}/${moduleImport}.json`);
       const moduleGroups = global.require(moduleDefFile);
-
       const modulesDetails = new Array();
 
       await asyncForEach(moduleGroups, (module, index) => {
         const traitements = global.require(path.resolve(`./modules/import/${moduleImport}/${module.traitements}`));
-        //console.log('traitements', traitements);
         modulesDetails[module.libelleGroupe] = traitements;
       });
       resolve(modulesDetails);
