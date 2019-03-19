@@ -58,7 +58,7 @@ class ModGroups extends Component {
               {detail.libelle}
             
             </Grid>
-            <Grid item xs={3} className={classes.gridItem}>
+            <Grid item xs={2} className={classes.gridItem}>
             
               <LinearProgress variant="determinate" value={0}/>
             </Grid>
@@ -94,7 +94,7 @@ class ModGroups extends Component {
         <Table width="100%">
           <TableHead>
             <TableRow>
-              <TableCell width={25}>Groupes</TableCell>
+              <TableCell width={15}>Groupes</TableCell>
               <TableCell width="100%">Description</TableCell>
             </TableRow>
           </TableHead>

@@ -119,7 +119,7 @@ class AppDrawer extends Component {
                 disableRipple
                 size="small"
               >
-                Trasnfert
+                Transfert
               </Button>
               <Button
                 className={classes.button}
