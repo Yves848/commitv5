@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { withStyles } from '@material-ui/core/styles';
+import classNames from 'classnames';
 import Drawer from '@material-ui/core/Drawer';
 import Paper from '@material-ui/core/Paper';
 import Button from '@material-ui/core/Button';
+import { blueGrey } from '@material-ui/core/colors';
 
 const { ipcRenderer } = require('electron');
 const drawerWidth = 150;
@@ -11,22 +13,23 @@ const styles = theme => ({
   drawer: {
     width: drawerWidth,
     flexShrink: 0,
-    padding : theme.spacing.unit
+    padding: theme.spacing.unit,
   },
   content: {
     flexGrow: 1,
     //padding: theme.spacing.unit * 4,
     paddingTop: theme.spacing.unit * 8,
     paddingLeft: theme.spacing.unit,
-    paddingRight: theme.spacing.unit
+    paddingRight: theme.spacing.unit,
+  },
+  content2 : {
+    padding: theme.spacing.unit
   },
   drawerPaper: {
     width: drawerWidth,
   },
   button: {
     marginBottom: '5px',
-    
-
   },
 
   toolbar: theme.mixins.toolbar,
@@ -37,32 +40,31 @@ class AppDrawer extends Component {
     super(props);
 
     ipcRenderer.on('openProject-return', (event, args) => {
-      console.log(args);
+      //console.log(args);
     });
   }
 
   openProject = () => {
     const response = ipcRenderer.send('openProject');
     if (response) {
-      console.log(response);
+      //console.log(response);
     }
   };
 
   createProject = () => {
     const response = ipcRenderer.send('createProject');
     if (response) {
-      console.log(response);
+      //console.log(response);
     }
   };
 
   render() {
-    const { isOpen, classes } = this.props;
+    const { isOpen, classes, isProjectOpen } = this.props;
+
+    let toolsButtons = null;
+
     return (
-      <Drawer
-        className={classes.drawer}
-        variant="permanent"
-        classes={{ paper: classes.drawerPaper }}
-      >
+      <Drawer className={classes.drawer} variant="permanent" classes={{ paper: classes.drawerPaper }}>
         <div className={classes.content}>
           <Button
             className={classes.button}
@@ -73,7 +75,7 @@ class AppDrawer extends Component {
             }}
             fullWidth
             disableRipple
-            size='small'
+            size="small"
           >
             Créer projet
           </Button>
@@ -87,10 +89,53 @@ class AppDrawer extends Component {
             }}
             fullWidth
             disableRipple
-            size='small'
+            size="small"
           >
             Ouvrir projet
           </Button>
+          {isProjectOpen ? (
+            <Paper className={classes.content2} elevation={5}>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  console.log('Import')
+                }}
+                fullWidth
+                disableRipple
+                size="small"
+              >
+                Import
+              </Button>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  console.log('Transfert')
+                }}
+                fullWidth
+                disableRipple
+                size="small"
+              >
+                Trasnfert
+              </Button>
+              <Button
+                className={classes.button}
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  console.log('Reprise Données')
+                }}
+                fullWidth
+                disableRipple
+                size="small"
+              >
+                Reprise Données
+              </Button>
+            </Paper>
+          ) : null}
         </div>
       </Drawer>
     );

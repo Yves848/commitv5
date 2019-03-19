@@ -81,7 +81,7 @@ class MainView extends Component {
   }
 
   openProject = async () => {
-    return await dialog.showOpenDialog({
+    const file = await dialog.showOpenDialog({
       properties: ['openFile', 'promptToCreate'],
       filters: [
         {
@@ -94,6 +94,15 @@ class MainView extends Component {
         },
       ],
     });
+    
+    if (file && file.length > 0) {
+      const project = new projet();
+      await project.loadProject(file[0]);
+      
+      this.setState({
+        project
+      })
+    }
   };
 
   handleDrawerOpen = () => {
@@ -117,6 +126,8 @@ class MainView extends Component {
     });
   };
 
+  
+
   saveProject = async aProjet => {
     this.handleClose();
     const { creationDb } = this.state;
@@ -125,6 +136,7 @@ class MainView extends Component {
       creationDb,
     });
     const newProject = new projet();
+    console.log('newProject',newProject)
     newProject.saveProject(aProjet);
 
     //console.log(newProject.optionsPha)
@@ -167,6 +179,8 @@ class MainView extends Component {
     const { classes } = this.props;
     const { snack, creationDb, project } = this.state;
     //console.log(project)
+    const isProjectOpen = project ? true : false;
+    
     return (
       <div
         className={classes.root}
@@ -193,7 +207,7 @@ class MainView extends Component {
         <CssBaseline />
         <MenuAppBar />
 
-        <AppDrawer isOpen={this.state.isDrawerOpen} handleDrawer={this.handleDrawerOpen} className={classes.appDrawer} />
+        <AppDrawer isOpen={this.state.isDrawerOpen} handleDrawer={this.handleDrawerOpen} className={classes.appDrawer} isProjectOpen={isProjectOpen}/>
         <main className={classes.content}>
           <div className={classes.project}>
             <Project aProjet={project} />
