@@ -37,8 +37,8 @@ class Projet extends Component {
     console.log(aProjet)
     return (
       moduleDetails && (
-        <div className={classes.content}>
-          <Paper className={classes.root}>
+        <div className={classes.root}>
+          <Paper className={classes.content}>
             <Grid container direction="column" alignItems="center">
               <Grid item>
                 <h1>Projet : {aProjet.project.informations_generales.folder}</h1>
@@ -46,7 +46,7 @@ class Projet extends Component {
             </Grid>
           </Paper>
 
-          <Paper className={classes.root} elevation={5}>
+          <Paper className={classes.content} elevation={5}>
             <ModGroups modulesDetails={moduleDetails} />
           </Paper>
         </div>

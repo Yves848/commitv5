@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import { withStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import Table from '@material-ui/core/Table';
@@ -20,6 +21,10 @@ const styles = theme => ({
     width: '100%',
     marginTop: theme.spacing.unit * 3,
     overflowX: 'auto',
+  },
+  button: {
+    paddingRight: theme.spacing.unit,
+    paddingLeft: theme.spacing.unit,
   },
   gridItem: {
     paddingTop: theme.spacing.unit,
@@ -47,34 +52,24 @@ class ModGroups extends Component {
       const details = modulesDetails[detail];
       return details.map((detail, index) => {
         return (
-          <Grid
-            container
-            direction="row"
-            key={index}
-            className={classes.content}
-            justify="space-between"
-            alignContent="flex-start"
-            alignItems="flex-end"
-          >
-            <Grid item xs={1}>
-              <Button size="small" variant="contained">
-                <SyncIcon />
-              </Button>
+          <Grid container direction="row" key={index} justify="space-between" alignContent="flex-start" alignItems="flex-end">
+            <Grid item xs={1} className={classNames(classes.gridItem, classes.button)}>
+              <SyncIcon fontSize='small'></SyncIcon>
             </Grid>
-            <Grid item xs className={classes.gridItem}>
+            <Grid item xs={6} className={classNames(classes.gridItem)} >
               {detail.libelle}
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1} className={classNames(classes.gridItem)}>
               0
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1} className={classNames(classes.gridItem)}>
               0
             </Grid>
-            <Grid item xs={1}>
+            <Grid item xs={1} className={classNames(classes.gridItem)}>
               0
             </Grid>
-            <Grid item xs={2} className={classes.gridItem} />
-            <Grid item xs={2} className={classes.gridItem} />
+            <Grid item xs={1} className={classNames(classes.gridItem)} />
+            <Grid item xs={1} className={classNames(classes.gridItem)} />
           </Grid>
         );
       });
@@ -107,37 +102,35 @@ class ModGroups extends Component {
         <Table width="100%">
           <TableHead>
             <TableRow>
-              <TableCell width={15}>Groupes</TableCell>
-              <TableCell width="100%">Description</TableCell>
+              <TableCell width={10}>Groupes</TableCell>
+              <TableCell >Description</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell width={15} />
-              <TableCell width="100%">
+              <TableCell width={10} />
+              <TableCell >
                 <Grid
                   container
                   direction="row"
-                  className={classes.content}
-                  justify="space-between"
                   alignContent="flex-start"
-                  alignItems="flex-end"
+                  alignItems="center"
                 >
-                  <Grid item xs={1}  className={classes.gridItem}/>
-                  <Grid item xs className={classes.gridItem}>
+                  <Grid item xs={1}  className={classNames(classes.gridItem)}/>
+                  <Grid item xs={6} className={classNames(classes.gridItem)}>
                     Données
                   </Grid>
-                  <Grid item xs={1}  className={classes.gridItem}>
+                  <Grid item xs={1} className={classNames(classes.gridItem)}>
                     Succès
                   </Grid>
-                  <Grid item xs={1}  className={classes.gridItem}>
-                    Avertissements
+                  <Grid item xs={1} className={classNames(classes.gridItem)}>
+                    Avert.
                   </Grid>
-                  <Grid item xs={1}  className={classes.gridItem}>
-                    Erreurs
+                  <Grid item xs={1} className={classNames(classes.gridItem)}>
+                    Err.
                   </Grid>
-                  <Grid item xs={2} className={classes.gridItem}>
+                  <Grid item xs={1} className={classNames(classes.gridItem)}>
                     Début
                   </Grid>
-                  <Grid item xs={2} className={classes.gridItem}>
+                  <Grid item xs={1} className={classNames(classes.gridItem)}>
                     Fin
                   </Grid>
                 </Grid>

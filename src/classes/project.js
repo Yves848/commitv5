@@ -36,7 +36,8 @@ class projet {
   async loadProject(file) {
     this.project = JSON.parse(fs.readFileSync(file));
     this.modulesDetails = await this.getModulesDetails();
-    
+    console.log(this.modulesDetails)
+    fs.writeFileSync('test.json',JSON.stringify(this));
   }
 
   async getModulesDetails() {
