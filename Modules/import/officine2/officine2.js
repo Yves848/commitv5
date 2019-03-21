@@ -2,17 +2,18 @@
 console.log("officine2 **")
 const util = global.require('util');
 const promise = global.require('bluebird');
-const oledb = global.require('oledb');
+const oledb = global.require('node-adodb');
+const path = require('path')
 
-promise.promisifyAll(oledb);
+//promise.promisifyAll(oledb);
 
-const importOfficine2 = global.require('./import_officine2');
-const officine2 = global.require('./officine2.json');
+const importOfficine2 = require('./import_officine2');
+const officine2 = require('./officine2.json');
 
 const chaineConnexion = 'Provider=VFPOLEDB.1;Data Source=%s;Password="";Collating Sequence=MACHINE';
-
+console.log('ici', chaineConnexion)
 const executer = async (options) => {
-
+    console.log(options)
     try {
         // Connexion Officine2
         process.stdout.write(`${new Date().toISOString()} Connexion à la BD d'Officine2 en cours...`);

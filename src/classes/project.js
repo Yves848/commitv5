@@ -50,6 +50,7 @@ class projet {
     //console.log('projet - saveProject', this)
     fs.writeFileSync(projet.name, JSON.stringify(project)); 
     this.importModule = await this.chargerModule('import',project.modules[0].import.nom)
+    this.importModule.executer(this.project.optionsPha);
   }
 
   async chargerModule(typeModule, module) {
@@ -94,6 +95,7 @@ class projet {
     this.project = JSON.parse(fs.readFileSync(file));
     this.modulesDetails = await this.getModulesDetails();
     this.importModule = await this.chargerModule('import',this.project.modules[0].import.nom)
+    this.importModule.executer(this.project.optionsPha);
   }
 
   async creerDB() {

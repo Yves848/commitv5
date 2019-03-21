@@ -4,7 +4,7 @@ const dt = require('date-and-time');
 const promise = require('bluebird');
 const childProcess = require('child_process');
 const firebird = require('node-firebird-dev');
-import {asyncForEach} from './utils';
+const {asyncForEach} = require('./utils');
 
 const C_CHEMIN_BASE = path.resolve(path.resolve('./'));
 const C_CHEMIN_BASE_SCRIPT_SQL = `${C_CHEMIN_BASE}\\sql`;

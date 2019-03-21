@@ -1,14 +1,12 @@
 'use strict'
-
+console.log('* ici *')
 const fs = require('fs');
 const path = require('path');
 const colors = require('colors');
-
 const optionsPha = require('../../../options_pha')
 const baseLocale = require('../../../base_locale');
-const log = require('../../../logger');
+//const log = require('../../../logger');
 const importDonnees = require('../import_donnees');
-
 
 const importer = async (off2, item, options) => {
     if (off2) {

@@ -5,4 +5,4 @@ async function asyncForEach(array, callback) {
   }
 
 
-export  {asyncForEach}
+module.exports = {asyncForEach}
