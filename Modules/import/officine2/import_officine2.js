@@ -16,12 +16,10 @@ const importer = async (off2, item, options) => {
             let pha;
             try {
                 pha = await baseLocale.connecter(optionsPha);
-
                 // Suppression des clients
                 process.stdout.write(`${new Date().toISOString()} *** Suppression des ${item.libelleGroupe} ...`);
                 baseLocale.executerPS(pha, item.procedureSuppression);
                 process.stdout.write(" OK ! ***\n");
-
                 // TODO Ajouter Question Y/N importer/transfèrer
                 for(const t of require(`./${item.traitements}`)) {
                     console.log(new Date().toISOString(), `*** Import ${t.libelle} ***`);

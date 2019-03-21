@@ -49,7 +49,29 @@ class projet {
     await this.initResults();
     //console.log('projet - saveProject', this)
     fs.writeFileSync(projet.name, JSON.stringify(project)); 
+    this.importModule = await this.chargerModule('import',project.modules[0].import.nom)
   }
+
+  async chargerModule(typeModule, module) {
+    
+      console.log(typeModule,module)
+      if (typeModule && module && module.length !== 0) {
+        try {
+            const modulePath = path.resolve(`./modules/${typeModule}/${module}/${module}`)
+            console.log(modulePath)
+            const importModule = global.require(modulePath);
+            return importModule;
+        } catch (e) {
+            console.log(new Date().toISOString(), `Erreur lors du chargement du module: ${e.message}`);
+            console.log(new Date().toISOString(), e.stack);
+            return e
+        }
+    } else {
+        console.log(new Date().toISOString(), colors.red("Type de module non-spécifié ou module non-spécifié !"));
+    }
+    
+    
+}
 
   async initResults() {
     /*
@@ -71,6 +93,7 @@ class projet {
   async loadProject(file) {
     this.project = JSON.parse(fs.readFileSync(file));
     this.modulesDetails = await this.getModulesDetails();
+    this.importModule = await this.chargerModule('import',this.project.modules[0].import.nom)
   }
 
   async creerDB() {

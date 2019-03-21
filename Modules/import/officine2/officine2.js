@@ -1,13 +1,13 @@
 'use strict';
-
-const util = require('util');
-const promise = require('bluebird');
-const oledb = require('oledb');
+console.log("officine2 **")
+const util = global.require('util');
+const promise = global.require('bluebird');
+const oledb = global.require('oledb');
 
 promise.promisifyAll(oledb);
 
-const importOfficine2 = require('./import_officine2');
-const officine2 = require('./officine2.json');
+const importOfficine2 = global.require('./import_officine2');
+const officine2 = global.require('./officine2.json');
 
 const chaineConnexion = 'Provider=VFPOLEDB.1;Data Source=%s;Password="";Collating Sequence=MACHINE';
 

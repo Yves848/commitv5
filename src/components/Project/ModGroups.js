@@ -7,6 +7,7 @@ import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
+import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import SyncIcon from '@material-ui/icons/Sync';
@@ -169,7 +170,9 @@ class ModGroups extends Component {
               <SyncIcon fontSize="small" onClick={() => this.add(detail, resultat)} className={classes.alignMiddle} />
             </Grid>
             <Grid item xs={6} className={classNames(classes.gridItem)}>
-              <span className={classes.alignMiddle}>{detail.libelle}</span>
+              <Typography variant="caption">
+                <span className={classes.alignMiddle}>{detail.libelle}</span>
+              </Typography>
             </Grid>
             <Grid item xs={1} className={classNames(classes.gridItem, classes.colorSuccess, classes.alignRight)}>
               <span className={classes.alignMiddle}>{resultat.succes}</span>
@@ -181,10 +184,10 @@ class ModGroups extends Component {
               <div className={classNames(classes.colorError, classes.alignMiddle)}>{resultat.erreurs}</div>
             </Grid>
             <Grid item xs={1} className={classNames(classes.gridItem, classes.alignCenter)}>
-            <span className={classes.alignMiddle}>{resultat.debut}</span>
+              <span className={classes.alignMiddle}>{resultat.debut}</span>
             </Grid>
             <Grid item xs={1} className={classNames(classes.gridItem, classes.alignCenter)}>
-            <span className={classes.alignMiddle}>{resultat.fin}</span>
+              <span className={classes.alignMiddle}>{resultat.fin}</span>
             </Grid>
           </Grid>
         );

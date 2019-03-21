@@ -79,6 +79,7 @@
     "read-id3-tags": "^1.1.0",
     "recompose": "^0.30.0",
     "request": "^2.88.0",
+    "typeface-roboto": "0.0.54",
     "url-loader": "^1.1.1",
     "xml-js": "^1.6.7"
   },
