@@ -47,16 +47,18 @@ class projet {
     this.baseLocale = await this.creerDB();
     this.modulesDetails = await this.getModulesDetails();
     await this.initResults();
-    console.log('projet - saveProject', this)
-    fs.writeFileSync(projet.name, JSON.stringify(project));
-    
+    //console.log('projet - saveProject', this)
+    fs.writeFileSync(projet.name, JSON.stringify(project)); 
   }
 
   async initResults() {
+    /*
+      Initialistion des résultats de l'import, requête par requête.
+    */
+
     return new Promise(async (resolve, reject)=> {
       const {modulesDetails} = this;
       const {modules} = this.project;
-      console.log('projet - initResults', modulesDetails, modules)
       await asyncForEach(Object.keys(modulesDetails),async (module,index) => {
         const results = modulesDetails[module].map((detail)=> {
           modules[0].import.resultats.push([detail.libelle,{...INITIAL_RESULT}])
@@ -69,7 +71,6 @@ class projet {
   async loadProject(file) {
     this.project = JSON.parse(fs.readFileSync(file));
     this.modulesDetails = await this.getModulesDetails();
-    fs.writeFileSync('test.json',JSON.stringify(this));
   }
 
   async creerDB() {

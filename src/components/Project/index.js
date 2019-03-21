@@ -49,6 +49,7 @@ class Projet extends Component {
   componentDidUpdate(prevprops) {
     if (this.props.aProjet && prevprops.aProjet !== this.props.aProjet) {
       const moduleDetails = this.props.aProjet.modulesDetails;
+      //console.log('componentDidUpdate',moduleDetails)
       this.setState({
         moduleDetails,
       });
@@ -60,15 +61,20 @@ class Projet extends Component {
     const { moduleDetails } = this.state;
     let tabs;
     let tabDetails;
-    //console.log(moduleDetails);
+    
     if (moduleDetails) {
+      //console.log('moduleDetails',moduleDetails)
       tabs = Object.keys(moduleDetails).map((detail, index) => {
         return <Tab label={detail} key={index}/>;
       });
+
       tabDetails = Object.keys(moduleDetails).map((detail, index) => {
+        const {modules} = aProjet.project;
+        const resultats = modules[0].import.resultats;
+        
         return (
           <TabContainer dir={theme.direction} key={index}>
-            <ModGroups moduleDetails={moduleDetails[detail]} />
+            <ModGroups moduleDetails={moduleDetails[detail]} resultats={resultats} />
           </TabContainer>
         );
       });
