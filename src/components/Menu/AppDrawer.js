@@ -57,6 +57,13 @@ class AppDrawer extends Component {
     }
   };
 
+  importData = () => {
+    const response = ipcRenderer.send('importData');
+    if (response) {
+      console.log(response);
+    }
+  }
+
   render() {
     const { isOpen, classes, isProjectOpen } = this.props;
 
@@ -99,7 +106,7 @@ class AppDrawer extends Component {
                 variant="contained"
                 color="primary"
                 onClick={() => {
-                  console.log('Import')
+                  this.importData()
                 }}
                 fullWidth
                 disableRipple

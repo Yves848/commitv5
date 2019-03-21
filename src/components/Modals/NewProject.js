@@ -64,7 +64,6 @@ class NewProject extends Component {
   handlePaysChange = event => {
     const pays = event.target.value;
     const { projet } = this.state;
-    console.log("handlePaysChange", pays)
     projet.pays = pays;
     projet.aImport = 0;
     projet.importName = '';

@@ -4,18 +4,32 @@ const moment = require('moment');
 const versions = require('../../Modules/modules.json');
 const aProjet = require('../../Modules/projet.pj5.json');
 const optionsPha = require('../../options_pha.json');
+import { baseLocale } from './baseLocale';
 import { asyncForEach } from './utils';
 
 const INITIAL_STATE = {
   ...aProjet,
   optionsPha: {
     ...optionsPha,
-  },
+  }
+
 };
 
+const INITIAL_RESULT = {
+  fichier_present: 0,
+  succes: 0,
+  avertissements:0,
+  rejets: 0,
+  erreurs: 0,
+  debut: null,
+  fin: null,
+  fait: 0
+}
+
 class projet {
-  constructor() {
+  constructor(updateStatus) {
     this.project = { ...INITIAL_STATE };
+    this.updateStatus = updateStatus;
   }
 
   async saveProject(projet) {
@@ -29,15 +43,44 @@ class projet {
     project.modules[0].import.nom = aImport[projet.aImport].nom;
     project.modules[1].transfert.nom = aTransfert[projet.aTransfert].nom;
     project.optionsPha.database = path.resolve(path.dirname(projet.name), 'PHA3.FDB');
-    fs.writeFileSync(projet.name, JSON.stringify(project));
+    
+    this.baseLocale = await this.creerDB();
     this.modulesDetails = await this.getModulesDetails();
+    await this.initResults();
+    console.log('projet - saveProject', this)
+    fs.writeFileSync(projet.name, JSON.stringify(project));
+    
+  }
+
+  async initResults() {
+    return new Promise(async (resolve, reject)=> {
+      const {modulesDetails} = this;
+      const {modules} = this.project;
+      console.log('projet - initResults', modulesDetails, modules)
+      await asyncForEach(Object.keys(modulesDetails),async (module,index) => {
+        const results = modulesDetails[module].map((detail)=> {
+          modules[0].import.resultats.push([detail.libelle,{...INITIAL_RESULT}])
+        })
+      })
+      resolve();
+    })
   }
 
   async loadProject(file) {
     this.project = JSON.parse(fs.readFileSync(file));
     this.modulesDetails = await this.getModulesDetails();
-    console.log(this.modulesDetails)
     fs.writeFileSync('test.json',JSON.stringify(this));
+  }
+
+  async creerDB() {
+    return new Promise(async (resolve, reject) => {
+      const {optionsPha} = this.project;
+      const db = new baseLocale(optionsPha, this.updateStatus);
+      await db.creerDB();
+      resolve(db);
+    })
+    
+    
   }
 
   async getModulesDetails() {

@@ -11,6 +11,7 @@ import { CssBaseline } from '@material-ui/core';
 import NewProject from '../components/Modals/NewProject';
 import CreationDb from '../components/Modals/CreationDb';
 import Project from '../components/Project';
+import ControlPanel from '../components/Menu/ControlPanel'
 import { withProject } from '../Classes/ProjectContext';
 import { projet } from '../Classes/project';
 const { dialog } = require('electron').remote;
@@ -75,6 +76,10 @@ class MainView extends Component {
       });
     });
 
+    ipcMain.on('importData', async (event, arg) => {
+      console.log('import Data')
+    })
+
     ipcMain.on('snack', async (event, args) => {
       //console.log(args)
     });
@@ -135,15 +140,10 @@ class MainView extends Component {
     this.setState({
       creationDb,
     });
-    const newProject = new projet();
-    console.log('newProject',newProject)
-    newProject.saveProject(aProjet);
+    const newProject = new projet(this.updateStatus);
 
-    //console.log(newProject.optionsPha)
-    const { optionsPha } = newProject.projet;
-    //await baseLocale.creer(optionsPha, this.updateStatus);
-    const db = new baseLocale(optionsPha, this.updateStatus);
-    await db.creerDB();
+    await newProject.saveProject(aProjet);
+
     this.setState({
       snack: {
         projet: newProject,
@@ -178,7 +178,6 @@ class MainView extends Component {
   render() {
     const { classes } = this.props;
     const { snack, creationDb, project } = this.state;
-    //console.log(project)
     const isProjectOpen = project ? true : false;
     
     return (
@@ -211,6 +210,7 @@ class MainView extends Component {
         <main className={classes.content}>
           <div className={classes.project}>
             <Project aProjet={project} />
+            <ControlPanel aProjet={project}></ControlPanel>
           </div>
         </main>
 

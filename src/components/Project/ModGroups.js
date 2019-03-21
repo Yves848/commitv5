@@ -38,19 +38,19 @@ class ModGroups extends Component {
   }
 
   componentDidUpdate(prevprops) {
-    if (prevprops.modulesDetails !== this.props.modulesDetails) {
+    if (prevprops.moduleDetails !== this.props.moduleDetails) {
       return true;
     }
     return false;
   }
 
   render() {
-    const { modulesDetails, classes } = this.props;
+    const { moduleDetails, classes } = this.props;
 
     let tableBody = null;
-    const getDetails = detail => {
-      const details = modulesDetails[detail];
-      return details.map((detail, index) => {
+    const getDetails = () => {
+      
+      return moduleDetails.map((detail, index) => {
         return (
           <Grid container direction="row" key={index} justify="space-between" alignContent="flex-start" alignItems="flex-end">
             <Grid item xs={1} className={classNames(classes.gridItem, classes.button)}>
@@ -75,38 +75,29 @@ class ModGroups extends Component {
       });
     };
 
-    if (modulesDetails) {
-      console.log('render', modulesDetails);
-      tableBody = Object.keys(modulesDetails).map((detail, index) => {
-        //console.log(modulesDetails[detail]);
-        return (
-          <TableRow key={index}>
-            <TableCell>
-              <Grid container>
-                <Grid item>{detail}</Grid>
-              </Grid>
-            </TableCell>
+    if (moduleDetails) {
+      //console.log('render', moduleDetails);
+      tableBody = 
+          <TableRow>
             <TableCell>
               <Paper className={classes.content}>
                 <Grid container direction="column" className={classes.content}>
-                  {getDetails(detail)}
+                  {getDetails()}
                 </Grid>
               </Paper>
             </TableCell>
-          </TableRow>
-        );
-      });
+          </TableRow>;
     }
-    return modulesDetails ? (
+    return moduleDetails ? (
       <Paper className={classes.root}>
         <Table width="100%">
           <TableHead>
             <TableRow>
-              <TableCell width={10}>Groupes</TableCell>
+              
               <TableCell >Description</TableCell>
             </TableRow>
             <TableRow>
-              <TableCell width={10} />
+              
               <TableCell >
                 <Grid
                   container
