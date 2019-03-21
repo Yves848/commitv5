@@ -10,9 +10,6 @@ import TableRow from '@material-ui/core/TableRow';
 import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import SyncIcon from '@material-ui/icons/Sync';
-import LinearProgress from '@material-ui/core/LinearProgress';
-import { Buffer } from 'buffer';
-import { bold } from 'colors';
 
 const styles = theme => ({
   content: {
@@ -32,8 +29,6 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit,
   },
   gridItem: {
-    //paddingTop: theme.spacing.unit,
-    //paddingBottom: theme.spacing.unit,
     paddingRight: '3px',
   },
   colorSuccess: {
@@ -49,7 +44,10 @@ const styles = theme => ({
     textAlign: 'right',
   },
   alignCenter: {
-    textAlign: 'center'
+    textAlign: 'center',
+  },
+  alignMiddle: {
+    verticalAlign: 'middle',
   },
   roundedCorner: {
     borderRadius: '5px',
@@ -147,16 +145,15 @@ class ModGroups extends Component {
           .map(result => {
             return result[1];
           })[0];
-        
-        let border= classes.tableBorderDetail;
+
+        let border = classes.tableBorderDetail;
         if (index === 0) {
-          border = classes.tableBorderTop
-        };
-        if (index === moduleDetails.length -1)
-        {
-          border = classes.tableBorderBottom
+          border = classes.tableBorderTop;
         }
-        
+        if (index === moduleDetails.length - 1) {
+          border = classes.tableBorderBottom;
+        }
+
         return (
           <Grid
             className={classes.grid}
@@ -169,25 +166,25 @@ class ModGroups extends Component {
             className={border}
           >
             <Grid item xs={1} className={classNames(classes.gridItem, classes.button)}>
-              <SyncIcon fontSize="small" onClick={() => this.add(detail, resultat)} />
+              <SyncIcon fontSize="small" onClick={() => this.add(detail, resultat)} className={classes.alignMiddle} />
             </Grid>
             <Grid item xs={6} className={classNames(classes.gridItem)}>
-              {detail.libelle}
+              <span className={classes.alignMiddle}>{detail.libelle}</span>
             </Grid>
             <Grid item xs={1} className={classNames(classes.gridItem, classes.colorSuccess, classes.alignRight)}>
-              {resultat.succes}
+              <span className={classes.alignMiddle}>{resultat.succes}</span>
             </Grid>
             <Grid item xs={1} className={classNames(classes.gridItem, classes.colorWarning, classes.alignRight)}>
-              {resultat.avertissements}
+              <span className={classes.alignMiddle}>{resultat.avertissements}</span>
             </Grid>
             <Grid item xs={1} className={classNames(classes.gridItem, classes.colorError, classes.alignRight)}>
-              <div className={classes.colorError}>{resultat.erreurs}</div>
+              <div className={classNames(classes.colorError, classes.alignMiddle)}>{resultat.erreurs}</div>
             </Grid>
             <Grid item xs={1} className={classNames(classes.gridItem, classes.alignCenter)}>
-              {resultat.debut}
+            <span className={classes.alignMiddle}>{resultat.debut}</span>
             </Grid>
             <Grid item xs={1} className={classNames(classes.gridItem, classes.alignCenter)}>
-              {resultat.fin}
+            <span className={classes.alignMiddle}>{resultat.fin}</span>
             </Grid>
           </Grid>
         );
@@ -199,7 +196,7 @@ class ModGroups extends Component {
         <TableRow>
           <TableCell>
             <Paper className={classes.content}>
-              <Grid container direction="column" >
+              <Grid container direction="column" alignItems="baseline">
                 {getDetails()}
               </Grid>
             </Paper>
@@ -213,11 +210,8 @@ class ModGroups extends Component {
         <Table width="100%">
           <TableHead>
             <TableRow>
-              <TableCell>Description</TableCell>
-            </TableRow>
-            <TableRow>
               <TableCell>
-                <Grid container direction="row" alignContent="flex-start" alignItems="center" >
+                <Grid container direction="row" alignContent="flex-start" alignItems="center">
                   <Grid item xs={1} className={classNames(classes.gridItem)} />
                   <Grid item xs={6} className={classNames(classes.gridItem)}>
                     Données
