@@ -49,8 +49,12 @@ class projet {
     await this.initResults();
     //console.log('projet - saveProject', this)
     fs.writeFileSync(projet.name, JSON.stringify(project)); 
-    this.importModule = await this.chargerModule('import',project.modules[0].import.nom)
-    this.importModule.executer(this.project.optionsPha);
+    const moduleName = this.project.modules[0].import.nom;
+    const {importModule} = global.require(path.resolve(`./modules/import/${moduleName}/Classes/${moduleName}`));
+    const iModule = new importModule(this.baseLocale, this.modulesDetails); 
+    this.importModule = iModule
+    this.importModule.importAll();
+    console.log(this)
   }
 
   async chargerModule(typeModule, module) {
@@ -94,8 +98,16 @@ class projet {
   async loadProject(file) {
     this.project = JSON.parse(fs.readFileSync(file));
     this.modulesDetails = await this.getModulesDetails();
-    this.importModule = await this.chargerModule('import',this.project.modules[0].import.nom)
-    this.importModule.executer(this.project.optionsPha);
+    this.baseLocale = new baseLocale(this.project.optionsPha,this.updateStatus);
+    console.log(this.baseLocale)
+    this.baseLocale.db = await this.baseLocale.connecter();
+
+    const moduleName = this.project.modules[0].import.nom;
+    const {importModule} = global.require(path.resolve(`./modules/import/${moduleName}/Classes/${moduleName}`));
+    const iModule = new importModule(this.baseLocale, this.modulesDetails); 
+    this.importModule = iModule
+    this.importModule.importAll();
+    
   }
 
   async creerDB() {

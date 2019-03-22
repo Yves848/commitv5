@@ -1,10 +1,5 @@
 [
     {
-        "libelleGroupe" : "Médecins",
-        "procedureSuppression" : "pk_supprimer.supprimer_praticiens",
-        "traitements" : "import_medecins.json"
-    },
-    {
         "libelleGroupe" : "Clients",
         "procedureSuppression" : "pk_supprimer.supprimer_clients",
         "traitements" : "import_clients.json"        

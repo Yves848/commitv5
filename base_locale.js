@@ -114,9 +114,10 @@ const validerDate = (date, format) => {
 const executerPS = async (db, procedure, parametres) => {
 
     const nombreParametres = parametres ? Object.keys(parametres).length : 0;
-
+   
     // Préparation paramètres
     const tabParametres = new Array(nombreParametres || 0);
+    
     if (nombreParametres > 0) {
         const attributs = Object.keys(parametres);
         for (var i = 0; i < nombreParametres; i++) {
@@ -128,18 +129,24 @@ const executerPS = async (db, procedure, parametres) => {
             }
         }
     }
-    
     // Préparation requête
-    const chaineParametres = nombreParametres > 0 ? "(" + new Array(nombreParametres).fill('?').join(', ') + ")" : "";
+    //const chaineParametres = nombreParametres > 0 ? "(" + new Array(nombreParametres).fill('?').join(', ') + ")" : "";
+    const chaineParametres = "("+tabParametres.join(', ')+")";
 
+    //console.log('executerPS', tabParametres, chaineParametres)
     // C'est parti !
-    await db.queryAsync(`execute procedure ${procedure}${chaineParametres}`, tabParametres);        
+    const query = `execute procedure ${procedure}${chaineParametres}`;
+    console.log('query',query)
+    await db.queryAsync(query, tabParametres);        
 }
 
 const connecter = async options => {
     try {
         process.stdout.write(`${new Date().toISOString()} Connexion à la base locale en cours...`);
+        console.log(`${new Date().toISOString()} Connexion à la base locale en cours...`);
+
         const db = await firebird.attachAsync(options);
+        console.log(db)
         promise.promisifyAll(db);
 
         db.onAsync('error', function(err) {
@@ -147,7 +154,7 @@ const connecter = async options => {
         });
 
         process.stdout.write('OK :)\n');
-
+        console.log('ok')
         return db;
     } catch (e) {
         console.log(new Date().toISOString(), `Erreur lors de la connexion à la base locale : ${e.message}`);

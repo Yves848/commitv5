@@ -101,7 +101,7 @@ class MainView extends Component {
     });
     
     if (file && file.length > 0) {
-      const project = new projet();
+      const project = new projet(this.updateStatus);
       await project.loadProject(file[0]);
       
       this.setState({

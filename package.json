@@ -68,6 +68,7 @@
     "node-id3": "^0.1.5",
     "notistack": "^0.4.3",
     "oledb": "^1.5.2",
+    "oledb-electron": "^1.0.0",
     "prop-styles": "^2.0.0",
     "react": "^16.8.2",
     "react-dom": "^16.5.0",
