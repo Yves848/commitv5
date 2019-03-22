@@ -17,7 +17,8 @@ const executer = async (options) => {
     try {
         // Connexion Officine2
         process.stdout.write(`${new Date().toISOString()} Connexion à la BD d'Officine2 en cours...`);
-        const off2 = oledb.oledbConnection(util.format(chaineConnexion, options.commit.repertoire));
+
+        const off2 = oledb.open(util.format(chaineConnexion, options.commit.repertoire));
         promise.promisifyAll(off2);
         process.stdout.write("OK :)\n");
         
