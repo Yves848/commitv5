@@ -53,7 +53,6 @@ class projet {
     const {importModule} = global.require(path.resolve(`./modules/import/${moduleName}/Classes/${moduleName}`));
     const iModule = new importModule(this.baseLocale, this.modulesDetails); 
     this.importModule = iModule
-    this.importModule.importAll();
     console.log(this)
   }
 
@@ -106,8 +105,6 @@ class projet {
     const {importModule} = global.require(path.resolve(`./modules/import/${moduleName}/Classes/${moduleName}`));
     const iModule = new importModule(this.baseLocale, this.modulesDetails); 
     this.importModule = iModule
-    this.importModule.importAll();
-    
   }
 
   async creerDB() {
