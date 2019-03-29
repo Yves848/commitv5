@@ -18,6 +18,7 @@ class baseLocale {
 
   async createDatabase() {
     return new Promise((resolve, reject) => {
+      console.log('createDatabase');
       firebird.create(this.options, (err, db) => {
         if (err) {
           reject(err);
@@ -39,13 +40,25 @@ class baseLocale {
   }
 
   async executerScript(utilisateur, motDePasse, sql, db) {
-    let p = ['-u', utilisateur, '-p', motDePasse];
-    if (db) {
-      p.push(db);
-    }
-    Array.prototype.push.apply(p, ['-i', sql]);
-    this.updateStatus(sql);
-    const stout = childProcess.execFileSync(`${C_CHEMIN_BASE}\\fb\\isql.exe`, p);
+    return new Promise((resolve, reject) => {
+      let p = ['-u', utilisateur, '-p', motDePasse];
+      if (db) {
+        p.push(db);
+      }
+      Array.prototype.push.apply(p, ['-i', sql]);
+
+      this.updateStatus(sql);
+      console.log('executerScript', sql);
+      try {
+        const stout = childProcess.execFileSync(`${C_CHEMIN_BASE}\\fb\\isql.exe`, p);
+        resolve();
+      } catch (error) {
+        console.log(error);
+        reject(error)
+      }
+
+      //console.log(stout)
+    });
   }
 
   async executerScriptsRepertoire(db, utilisateur, motDePasse, repertoire) {
@@ -54,6 +67,7 @@ class baseLocale {
         const files = fs.readdirSync(repertoire);
         await asyncForEach(files, async (file, index) => {
           const sql = repertoire + '\\' + file;
+          //console.log('file',sql)
           if (!fs.statSync(sql).isDirectory()) {
             await this.executerScript(utilisateur, motDePasse, sql, db);
           }
@@ -65,34 +79,43 @@ class baseLocale {
 
   async executerScripts() {
     return new Promise(async (resolve, reject) => {
-      const { options } = this;
+      const { options, commit } = this;
       try {
         const cheminDb = options.database;
         console.log('executerScripts - options', options);
         console.log('executerScripts - cheminDb', cheminDb);
         console.log('executerScripts - C_CHEMIN_BASE_SCRIPT_SQL', C_CHEMIN_BASE_SCRIPT_SQL);
         await this.executerScriptsRepertoire(cheminDb, options.user, options.password, C_CHEMIN_BASE_SCRIPT_SQL);
-        if (options.commit.pays)
-          this.executerScriptsRepertoire(
+        console.log('commit', commit);
+        if (commit.pays)
+          await this.executerScriptsRepertoire(
             cheminDb,
             options.user,
             options.password,
-            `${C_CHEMIN_BASE_SCRIPT_SQL}\\${options.commit.pays}`
+            `${C_CHEMIN_BASE_SCRIPT_SQL}\\${commit.pays}`
           );
-        if (options.commit.import)
-          this.executerScript(
+
+        if (commit.import) {
+          console.log('options.commit.import', options.commit.import);
+          await this.executerScript(
             options.user,
             options.password,
-            `${C_CHEMIN_BASE}\\modules\\import\\${options.commit.import}\\${options.commit.import}.sql`,
+            `${C_CHEMIN_BASE}\\modules\\import\\${commit.import.nom}\\${commit.import.nom}.sql`,
             cheminDb
           );
-        if (options.commit.transfert)
-          this.executerScript(
+        }
+        if (commit.transfert)
+        try {
+          await this.executerScript(
             options.user,
             options.password,
             `${C_CHEMIN_BASE}\\modules\\transfert\\${options.commit.transfert}\\${options.commit.transfert}.sql`,
             cheminDb
           );
+        } catch (error) {
+          
+        }
+          
         resolve();
       } catch (e) {
         console.log(new Date().toISOString(), `Erreur lors de l'exécution des scripts: ${e}`);
@@ -103,9 +126,14 @@ class baseLocale {
 
   async creerDB() {
     return new Promise(async (resolve, reject) => {
-      this.db = await this.createDatabase();
-      await this.executerScripts();
-      resolve();
+      try {
+        this.db = await this.createDatabase();
+        console.log('la db est créée');
+        //await this.executerScripts();
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
     });
   }
 
@@ -165,7 +193,7 @@ class baseLocale {
   async executeQuery(query, parametres) {
     return new Promise((resolve, reject) => {
       const { db } = this;
-      //console.log('query', query, parametres);
+      console.log('query', query, parametres);
       db.query(query, parametres, (err, res) => {
         if (err) reject(err);
         resolve(res);
@@ -174,7 +202,8 @@ class baseLocale {
   }
 
   async executerPS(procedure, parametres) {
-    const nombreParametres = parametres ? Object.keys(parametres).length : 0;
+    return new Promise(async (resolve, reject) => {
+      const nombreParametres = parametres ? Object.keys(parametres).length : 0;
 
     // Préparation paramètres
     const tabParametres = new Array(nombreParametres || 0);
@@ -193,12 +222,16 @@ class baseLocale {
     // Préparation requête
     const chaineParametres = nombreParametres > 0 ? '(' + new Array(nombreParametres).fill('?').join(', ') + ')' : '';
     try {
-        await this.executeQuery(`execute procedure ${procedure}${chaineParametres}`, tabParametres);    
+      await this.executeQuery(`execute procedure ${procedure}${chaineParametres}`, tabParametres);
+      resolve();
     } catch (error) {
-        console.log(error)
+      console.log(error);
+      reject(error);
     }
-    
+
     //await db.queryAsync(`execute procedure ${procedure}${chaineParametres}`, tabParametres);
+    })
+    
   }
 
   async deconnecter() {

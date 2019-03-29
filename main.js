@@ -1,9 +1,10 @@
 'use strict'
 
 // Import parts of electron to use
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow , ipcMain} = require('electron')
 const path = require('path')
 const url = require('url')
+const TestDB = require('./src/Classes/test');
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -38,7 +39,14 @@ function createWindow() {
     title: "Commit v5 -- Electron Powered"
   }
     )
-  
+
+  ipcMain.on('test-db',async (event, args) => {
+    console.log('ici le test');
+    console.log(args)
+    const test = new TestDB('c:/commitv5/PHA3.FDB');
+    const rows = await test.launchTest();
+    event.sender.send('reply-test', rows)
+  })
 
   // and load the index.html of the app.
   let indexPath
@@ -70,6 +78,8 @@ function createWindow() {
     //  mainWindow.webContents.openDevTools()
     //}
   })
+
+  
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function() {

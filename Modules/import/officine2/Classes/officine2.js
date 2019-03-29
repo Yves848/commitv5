@@ -2,7 +2,7 @@ const oledb = global.require('node-adodb');
 const path = global.require('path');
 const util = global.require('util');
 const fs = global.require('fs');
-const {asyncForEach} = require(path.resolve('./src/Classes/utils'));
+const { asyncForEach } = require(path.resolve('./src/Classes/utils'));
 
 class importModule {
   constructor(baseLocale, moduleDetails) {
@@ -14,6 +14,7 @@ class importModule {
     this.moduleFolder = path.resolve(`./modules/import/${this.Name}/sql/`);
     console.log('[officine2 - constructor]', this.baseLocale, this.moduleDetails);
     console.log('[officine2 - constructor]', this.repertoire);
+    console.log('globals', this.globals);
     this.chaineConnexion = util.format(
       'Provider=VFPOLEDB.1;Data Source=%s;Password="";Collating Sequence=MACHINE',
       this.repertoire
@@ -24,36 +25,63 @@ class importModule {
   }
 
   async importAll() {
-    const {moduleDetails} = this;
-    const modules = Object.keys(moduleDetails);
-    await asyncForEach(modules,async (module,index) => {
-      await this.importUnit(moduleDetails[module]);
-    })
+    return new Promise(async (resolve, reject) => {
+      const { moduleDetails } = this;
+      const { globals } = this;
+      const modules = Object.keys(moduleDetails);
+      try {
+        //await this.importUnit(moduleDetails[modules[0]]);
+        console.log('importAll',moduleDetails)
+        console.log('importAll',modules)
+        await asyncForEach(modules, async (module, index) => {
+          const details = moduleDetails[module];
+          console.log('asyncForEach',details)
+          await this.baseLocale.executerPS(globals[index].procedureSuppression);
+          await asyncForEach(details, async (key) => {
+            console.log('asyncForEach2', key);
+            await this.importUnit(key,index);
+          })
+          
+          
+        });
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
 
   async getDataIn(sql) {
-    return new Promise((resolve, reject) => {
-      const {moduleFolder} = this;
-      const script = fs.readFileSync(path.resolve(moduleFolder,sql)).toString();
-      const {off2} = this;
-      off2.query(script)
-      .then(schema => {
-        //console.log(JSON.stringify(schema));
+    return new Promise(async (resolve, reject) => {
+      const { moduleFolder } = this;
+      const script = fs.readFileSync(path.resolve(moduleFolder, sql)).toString();
+      const { off2 } = this;
+      console.log('getDataIn',script);
+      off2.query(script).then(schema => {
         resolve(schema);
-      })
-    })
+      }).catch(error => {
+        reject(error);
+      });
+    });
   }
 
-  async importUnit(details) {
-      const {globals} = this;
-      const {baseLocale} = this;
-      await this.baseLocale.executerPS(globals[0].procedureSuppression);
+  async importUnit(details, index) {
+    return new Promise(async (resolve, reject) => {
       
-      const dataIn = await this.getDataIn(details[0].sqlSelect);
-      const ps = details[0].sqlInsert;
-      await baseLocale.executerPS(ps,dataIn[0]);
+      const { baseLocale } = this;
+      console.log('importUnit', details);
+      
+      try {
+        const dataIn = await this.getDataIn(details.sqlSelect);
+        console.log('dataIn', dataIn)
+        const ps = details.sqlInsert;
+        //await baseLocale.executerPS(ps, dataIn[0]);
+        resolve();
+      } catch (error) {
+        reject(error);
+      }
+    });
   }
-
 }
 
 module.exports = { importModule };

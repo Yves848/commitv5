@@ -44,6 +44,11 @@ class projet {
     project.optionsPha.database = path.resolve(path.dirname(projet.name), 'PHA3.FDB');
 
     this.baseLocale = await this.creerDB();
+    this.baseLocale.commit = {
+      import: project.modules[0].import,
+      transfert: project.modules[1].transfert,
+      pays: pays
+    }
     this.modulesDetails = await this.getModulesDetails();
     await this.initResults();
     fs.writeFileSync(projet.name, JSON.stringify(project));
@@ -51,7 +56,8 @@ class projet {
     const { importModule } = global.require(path.resolve(`./modules/import/${moduleName}/Classes/${moduleName}`));
     const iModule = new importModule(this.baseLocale, this.modulesDetails);
     this.importModule = iModule;
-    console.log(this);
+    await this.baseLocale.executerScripts();
+    console.log('save roject',this);
   }
 
   async chargerModule(typeModule, module) {
@@ -94,12 +100,18 @@ class projet {
     this.modulesDetails = await this.getModulesDetails();
     this.baseLocale = new baseLocale(this.project.optionsPha, this.updateStatus);
     console.log(this.baseLocale);
+    this.baseLocale.commit = {
+      import: this.project.modules[0].import,
+      transfert:this.project.modules[1].transfert,
+      pays: this.project.informations_generales.pays
+    }
     this.baseLocale.db = await this.baseLocale.connecter();
 
     const moduleName = this.project.modules[0].import.nom;
     const { importModule } = global.require(path.resolve(`./modules/import/${moduleName}/Classes/${moduleName}`));
     const iModule = new importModule(this.baseLocale, this.modulesDetails);
     this.importModule = iModule;
+
     //this.importModule.importAll();
   }
 
@@ -107,8 +119,15 @@ class projet {
     return new Promise(async (resolve, reject) => {
       const { optionsPha } = this.project;
       const db = new baseLocale(optionsPha, this.updateStatus);
-      await db.creerDB();
-      resolve(db);
+      try {
+        await db.creerDB();  
+        resolve(db);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+      
+      
     });
   }
 

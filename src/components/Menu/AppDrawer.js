@@ -8,29 +8,28 @@ import indigo from '@material-ui/core/colors/indigo';
 import green from '@material-ui/core/colors/green';
 import purple from '@material-ui/core/colors/purple';
 import yellow from '@material-ui/core/colors/yellow';
-import {TestDB} from '../../Classes/test'
 const { ipcRenderer } = require('electron');
 const drawerWidth = 150;
 
-const getButtonColor = (theme,aColor) => {
+const getButtonColor = (theme, aColor) => {
   const button = {
-   
-      color: theme.palette.getContrastText(aColor[900]),
-      backgroundColor: aColor[900],
-      borderColor: aColor[900],
+    color: theme.palette.getContrastText(aColor[900]),
+    backgroundColor: aColor[900],
+    borderColor: aColor[900],
+    borderWidth: '2px',
+    borderStyle: 'solid',
+    '&:hover': {
+      color: theme.palette.getContrastText(aColor[200]),
+      backgroundColor: aColor[200],
+      borderColor: '#000',
       borderWidth: '2px',
       borderStyle: 'solid',
-      '&:hover': {
-        color: theme.palette.getContrastText(aColor[200]),
-        backgroundColor: aColor[200],
-        borderColor: '#000',
-        borderWidth: '2px',
-        borderStyle: 'solid',
-      }
-   
+    },
   };
-  return button
+  return button;
 };
+
+var dbListener;
 
 const styles = theme => ({
   drawer: {
@@ -47,24 +46,22 @@ const styles = theme => ({
   content2: {
     padding: '5px',
     marginTop: theme.spacing.unit * 2,
-    backgroundColor: "#c6c6ff"
+    backgroundColor: '#c6c6ff',
   },
   drawerPaper: {
     width: drawerWidth,
   },
   button: {
     marginBottom: '5px',
-    marginTop: '5px'
+    marginTop: '5px',
   },
 
   toolbar: theme.mixins.toolbar,
-  blueGreyButton: getButtonColor(theme,indigo),
+  blueGreyButton: getButtonColor(theme, indigo),
   greenButton: getButtonColor(theme, green),
-  purpleButton: getButtonColor(theme,purple),
-  yellowButton: getButtonColor(theme,yellow),
+  purpleButton: getButtonColor(theme, purple),
+  yellowButton: getButtonColor(theme, yellow),
 });
-
-
 
 class AppDrawer extends Component {
   constructor(props) {
@@ -90,7 +87,7 @@ class AppDrawer extends Component {
   };
 
   importData = () => {
-    const {aProjet} = this.props;
+    const { aProjet } = this.props;
     console.log('importData  this.props.aProjet', this.props.aProjet);
     const response = ipcRenderer.send('importData', aProjet);
     if (response) {
@@ -99,10 +96,15 @@ class AppDrawer extends Component {
   };
 
   test = () => {
-    console.log('test')
-    const test = new TestDB('c:/commitv5/PHA3.FDB');
-    test.launchTest();
-  }
+    console.log('test');
+    
+    ipcRenderer.removeAllListeners('reply-test');
+
+    ipcRenderer.on('reply-test', (event, args) => {
+      console.log(args);
+    });
+    ipcRenderer.send('test-db', { name: 'TEST' });
+  };
 
   render() {
     const { isOpen, classes, isProjectOpen } = this.props;
@@ -112,48 +114,48 @@ class AppDrawer extends Component {
     return (
       <Drawer className={classes.drawer} variant="permanent" classes={{ paper: classes.drawerPaper }}>
         <div className={classes.content}>
-        <Paper className={classes.content2} elevation={5}>
-          <Button
-            className={classNames(classes.button, classes.blueGreyButton)}
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              this.createProject();
-            }}
-            fullWidth
-            disableRipple
-            size="small"
-          >
-            Créer projet
-          </Button>
+          <Paper className={classes.content2} elevation={5}>
+            <Button
+              className={classNames(classes.button, classes.blueGreyButton)}
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                this.createProject();
+              }}
+              fullWidth
+              disableRipple
+              size="small"
+            >
+              Créer projet
+            </Button>
 
-          <Button
-            className={classNames(classes.button, classes.blueGreyButton)}
-            variant="contained"
-            color="primary"
-            onClick={() => {
-              this.openProject();
-            }}
-            fullWidth
-            disableRipple
-            size="small"
-          >
-            Ouvrir projet
-          </Button>
+            <Button
+              className={classNames(classes.button, classes.blueGreyButton)}
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                this.openProject();
+              }}
+              fullWidth
+              disableRipple
+              size="small"
+            >
+              Ouvrir projet
+            </Button>
 
-          <Button
-                className={classNames(classes.button, classes.yellowButton)}
-                variant="contained"
-                color="primary"
-                onClick={() => {
-                  this.test();
-                }}
-                fullWidth
-                disableRipple
-                size="small"
-              >
-                Test
-              </Button>
+            <Button
+              className={classNames(classes.button, classes.yellowButton)}
+              variant="contained"
+              color="primary"
+              onClick={() => {
+                this.test();
+              }}
+              fullWidth
+              disableRipple
+              size="small"
+            >
+              Test
+            </Button>
           </Paper>
           {isProjectOpen ? (
             <Paper className={classes.content2} elevation={5}>
@@ -196,7 +198,6 @@ class AppDrawer extends Component {
               >
                 Reprise Données
               </Button>
-              
             </Paper>
           ) : null}
         </div>

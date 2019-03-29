@@ -78,7 +78,12 @@ class MainView extends Component {
 
     ipcMain.on('importData', async (event, arg) => {
       console.log('import Data', this.state.project);
-      this.state.project.importModule.importAll();
+      try {
+        await this.state.project.importModule.importAll();  
+      } catch (error) {
+        console.log('importData', error)
+      }
+      
       
     })
 

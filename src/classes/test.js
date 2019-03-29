@@ -10,33 +10,33 @@ class TestDB {
       user: 'SYSDBA',
       password: 'masterkey',
       port: 3050,
-      lowercase_keys: false, 
+      lowercase_keys: false,
       role: null,
       pageSize: 4096,
     };
   }
 
-  getGlients = async () => {
-    return new Promise((resolve, reject)=> {
+  async getGlients() {
+    return new Promise((resolve, reject) => {
       this.db.query('select * from t_client', (err, res) => {
         resolve(res);
-      })
-    })
-  };
-
-  connectDb = async () => {
-    return new Promise((resolve, reject) => {
-      firebird.attach(this.options, (err,db) => {
-        resolve(db)
       });
     });
-  };
+  }
 
-  insertData = async() => {
+  async connectDb() {
+    return new Promise((resolve, reject) => {
+      firebird.attach(this.options, (err, db) => {
+        resolve(db);
+      });
+    });
+  }
+
+  async insertData() {
     return new Promise((resolve, reject) => {
       this.db.execute(
         `insert into t_client 
-         (t_client_id, 
+        (
           matricule,
           nom,
           prenom,
@@ -53,10 +53,9 @@ class TestDB {
           commentaire_global,
           t_profil_remise_id,
           t_personne_referente_id,
-          facturation,
-          date_derniere_visite
+          facturation
           ) values (
-            4,
+            
             '000233532',
             'NAME',
             'NAME2',
@@ -73,30 +72,34 @@ class TestDB {
             '',
             1,
             1,
-            '1',
-            ''  
-          )`
-      , (err, res) => {
-        if (err) reject(err);
-        resolve(res);
-      });
-    })
-    
-
+            '1'  
+          )`,
+        (err, res) => {
+          if (err) reject(err);
+          resolve(res);
+        }
+      );
+    });
   }
 
-  launchTest = async () => {
-    this.db = await this.connectDb();
-    console.log(this.db)
-    let rows = await this.getGlients();
-    console.log(rows);
-    try {
-      const res = await this.insertData();
-      console.log(res);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  async launchTest() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        this.db = await this.connectDb();
+        console.log(this.db);
+        let rows = await this.getGlients();
+        console.log(rows);
+  
+        //const res = await this.insertData();
+        //console.log(res);
+        resolve (rows)
+      } catch (error) {
+        reject(error);
+      }
+
+    })
+    
+  }
 }
 
-export { TestDB };
+module.exports = TestDB;
