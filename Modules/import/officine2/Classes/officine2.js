@@ -52,10 +52,6 @@ class importModule {
       const dataIn = await this.getDataIn(details[0].sqlSelect);
       const ps = details[0].sqlInsert;
       await baseLocale.executerPS(ps,dataIn[0]);
-
-      /* await asyncForEach(dataIn,async (data,index) => {
-        await baseLocale.executerPS(ps,data);
-      }) */
   }
 
 }

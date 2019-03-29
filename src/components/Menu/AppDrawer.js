@@ -8,7 +8,7 @@ import indigo from '@material-ui/core/colors/indigo';
 import green from '@material-ui/core/colors/green';
 import purple from '@material-ui/core/colors/purple';
 import yellow from '@material-ui/core/colors/yellow';
-
+import {TestDB} from '../../Classes/test'
 const { ipcRenderer } = require('electron');
 const drawerWidth = 150;
 
@@ -90,11 +90,19 @@ class AppDrawer extends Component {
   };
 
   importData = () => {
-    const response = ipcRenderer.send('importData');
+    const {aProjet} = this.props;
+    console.log('importData  this.props.aProjet', this.props.aProjet);
+    const response = ipcRenderer.send('importData', aProjet);
     if (response) {
       console.log(response);
     }
   };
+
+  test = () => {
+    console.log('test')
+    const test = new TestDB('c:/commitv5/PHA3.FDB');
+    test.launchTest();
+  }
 
   render() {
     const { isOpen, classes, isProjectOpen } = this.props;
@@ -132,6 +140,20 @@ class AppDrawer extends Component {
           >
             Ouvrir projet
           </Button>
+
+          <Button
+                className={classNames(classes.button, classes.yellowButton)}
+                variant="contained"
+                color="primary"
+                onClick={() => {
+                  this.test();
+                }}
+                fullWidth
+                disableRipple
+                size="small"
+              >
+                Test
+              </Button>
           </Paper>
           {isProjectOpen ? (
             <Paper className={classes.content2} elevation={5}>
@@ -174,6 +196,7 @@ class AppDrawer extends Component {
               >
                 Reprise Données
               </Button>
+              
             </Paper>
           ) : null}
         </div>

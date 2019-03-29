@@ -77,7 +77,9 @@ class MainView extends Component {
     });
 
     ipcMain.on('importData', async (event, arg) => {
-      console.log('import Data')
+      console.log('import Data', this.state.project);
+      this.state.project.importModule.importAll();
+      
     })
 
     ipcMain.on('snack', async (event, args) => {
@@ -206,7 +208,7 @@ class MainView extends Component {
         <CssBaseline />
         <MenuAppBar />
 
-        <AppDrawer isOpen={this.state.isDrawerOpen} handleDrawer={this.handleDrawerOpen} className={classes.appDrawer} isProjectOpen={isProjectOpen}/>
+        <AppDrawer isOpen={this.state.isDrawerOpen} handleDrawer={this.handleDrawerOpen} className={classes.appDrawer} isProjectOpen={isProjectOpen} aProjet={project}/>
         <main className={classes.content}>
           <div className={classes.project}>
             <Project aProjet={project} />

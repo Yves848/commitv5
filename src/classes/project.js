@@ -11,20 +11,19 @@ const INITIAL_STATE = {
   ...aProjet,
   optionsPha: {
     ...optionsPha,
-  }
-
+  },
 };
 
 const INITIAL_RESULT = {
   fichier_present: 0,
   succes: 0,
-  avertissements:0,
+  avertissements: 0,
   rejets: 0,
   erreurs: 0,
   debut: null,
   fin: null,
-  fait: 0
-}
+  fait: 0,
+};
 
 class projet {
   constructor(updateStatus) {
@@ -43,79 +42,74 @@ class projet {
     project.modules[0].import.nom = aImport[projet.aImport].nom;
     project.modules[1].transfert.nom = aTransfert[projet.aTransfert].nom;
     project.optionsPha.database = path.resolve(path.dirname(projet.name), 'PHA3.FDB');
-    
+
     this.baseLocale = await this.creerDB();
     this.modulesDetails = await this.getModulesDetails();
     await this.initResults();
-    //console.log('projet - saveProject', this)
-    fs.writeFileSync(projet.name, JSON.stringify(project)); 
+    fs.writeFileSync(projet.name, JSON.stringify(project));
     const moduleName = this.project.modules[0].import.nom;
-    const {importModule} = global.require(path.resolve(`./modules/import/${moduleName}/Classes/${moduleName}`));
-    const iModule = new importModule(this.baseLocale, this.modulesDetails); 
-    this.importModule = iModule
-    console.log(this)
+    const { importModule } = global.require(path.resolve(`./modules/import/${moduleName}/Classes/${moduleName}`));
+    const iModule = new importModule(this.baseLocale, this.modulesDetails);
+    this.importModule = iModule;
+    console.log(this);
   }
 
   async chargerModule(typeModule, module) {
-    
-      console.log(typeModule,module)
-      if (typeModule && module && module.length !== 0) {
-        try {
-            const modulePath = path.resolve(`./modules/${typeModule}/${module}/${module}`)
-            console.log(modulePath)
-            const importModule = global.require(modulePath);
-            return importModule;
-        } catch (e) {
-            console.log(new Date().toISOString(), `Erreur lors du chargement du module: ${e.message}`);
-            console.log(new Date().toISOString(), e.stack);
-            return e
-        }
+    console.log(typeModule, module);
+    if (typeModule && module && module.length !== 0) {
+      try {
+        const modulePath = path.resolve(`./modules/${typeModule}/${module}/${module}`);
+        console.log(modulePath);
+        const importModule = global.require(modulePath);
+        return importModule;
+      } catch (e) {
+        console.log(new Date().toISOString(), `Erreur lors du chargement du module: ${e.message}`);
+        console.log(new Date().toISOString(), e.stack);
+        return e;
+      }
     } else {
-        console.log(new Date().toISOString(), colors.red("Type de module non-spécifié ou module non-spécifié !"));
+      console.log(new Date().toISOString(), colors.red('Type de module non-spécifié ou module non-spécifié !'));
     }
-    
-    
-}
+  }
 
   async initResults() {
     /*
       Initialistion des résultats de l'import, requête par requête.
     */
 
-    return new Promise(async (resolve, reject)=> {
-      const {modulesDetails} = this;
-      const {modules} = this.project;
-      await asyncForEach(Object.keys(modulesDetails),async (module,index) => {
-        const results = modulesDetails[module].map((detail)=> {
-          modules[0].import.resultats.push([detail.libelle,{...INITIAL_RESULT}])
-        })
-      })
+    return new Promise(async (resolve, reject) => {
+      const { modulesDetails } = this;
+      const { modules } = this.project;
+      await asyncForEach(Object.keys(modulesDetails), async (module, index) => {
+        const results = modulesDetails[module].map(detail => {
+          modules[0].import.resultats.push([detail.libelle, { ...INITIAL_RESULT }]);
+        });
+      });
       resolve();
-    })
+    });
   }
 
   async loadProject(file) {
     this.project = JSON.parse(fs.readFileSync(file));
     this.modulesDetails = await this.getModulesDetails();
-    this.baseLocale = new baseLocale(this.project.optionsPha,this.updateStatus);
-    console.log(this.baseLocale)
+    this.baseLocale = new baseLocale(this.project.optionsPha, this.updateStatus);
+    console.log(this.baseLocale);
     this.baseLocale.db = await this.baseLocale.connecter();
 
     const moduleName = this.project.modules[0].import.nom;
-    const {importModule} = global.require(path.resolve(`./modules/import/${moduleName}/Classes/${moduleName}`));
-    const iModule = new importModule(this.baseLocale, this.modulesDetails); 
-    this.importModule = iModule
+    const { importModule } = global.require(path.resolve(`./modules/import/${moduleName}/Classes/${moduleName}`));
+    const iModule = new importModule(this.baseLocale, this.modulesDetails);
+    this.importModule = iModule;
+    //this.importModule.importAll();
   }
 
   async creerDB() {
     return new Promise(async (resolve, reject) => {
-      const {optionsPha} = this.project;
+      const { optionsPha } = this.project;
       const db = new baseLocale(optionsPha, this.updateStatus);
       await db.creerDB();
       resolve(db);
-    })
-    
-    
+    });
   }
 
   async getModulesDetails() {
