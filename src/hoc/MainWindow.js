@@ -17,7 +17,7 @@ import { projet } from '../Classes/project';
 const { dialog } = require('electron').remote;
 const { ipcMain } = require('electron').remote;
 import { baseLocale } from '../Classes/baseLocale';
-import backgroundImg from '../../docs/images/writer-background-6.jpg';
+import {backgroundImg} from '../../docs/images/';
 
 const styles = theme => ({
   root: {
@@ -64,6 +64,8 @@ class MainView extends Component {
       db: null,
       project: null,
     };
+
+    
 
     ipcMain.on('openProject', async (event, arg) => {
       const reponse = await this.openProject();
